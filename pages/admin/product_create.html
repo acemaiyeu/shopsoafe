@@ -1,0 +1,157 @@
+
+
+<body ng-controller="ProductController">
+<div class="container mt-4" >
+    
+    <h2 class="mb-4">Tạo Sản Phẩm</h2>
+    <img src="/img/{{product_create.image_url}}" class="col-2" alt="">
+    <form>
+        <!-- ID -->
+        
+         
+        <div class="form-group">
+            <label for="productId">ID</label>
+            <input type="text" class="form-control" ng-model="product_create.id" id="productId" placeholder="Nhập ID" readonly>
+        </div>
+
+        <!-- Mã sản phẩm -->
+        <div class="form-group">
+            <label for="productCode">Mã sản phẩm</label>
+            <input type="text" required ng-model="product_create.code" class="form-control" id="productCode" placeholder="Nhập mã sản phẩm">
+        </div>
+
+        <!-- Tên sản phẩm -->
+        <div class="form-group">
+            <label for="productName">Tên sản phẩm</label>
+            <input type="text" required ng-model="product_create.name" class="form-control" id="productName" placeholder="Nhập tên sản phẩm">
+        </div>
+
+        <!-- Giá -->
+        <div class="form-group">
+            <label for="price">Giá</label>
+            <input type="number" required min="0" ng-model="product_create.price" class="form-control" id="price" data-raw="" placeholder="Nhập giá">
+        </div>
+
+        <!-- Hình ảnh -->
+        <div class="form-group">
+                <label for="image" class="col-12">Hình ảnh</label>
+                <div class="row col-12">
+                    <div class="col-auto"  ng-repeat="img in product_create.images">
+                        <img src="/img/{{img}}" alt="" width="50px">
+                        <i class="bi bi-x-circle" style="position: absolute; top: 0; right: 0;"  ng-click="removeImageProductDetail($index)" ></i>
+                    </div>
+                    
+                    <i class="bi bi-journal-plus" style="font-size: 30px; margin-left: 10px;" data-toggle="modal" data-target="#add_more_image"></i>
+                </div>
+        </div>
+
+        <!-- Nhãn hiệu -->
+        <div class="form-group">
+            <label for="brand">Nhãn hiệu</label>
+            <input type="text" ng-model="product_create.brand" required class="form-control" id="brand" placeholder="Nhập nhãn hiệu">
+        </div>
+
+        <!-- Trọng lượng & Đơn vị -->
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="weight">Trọng lượng</label>
+                <input type="number" min="1" ng-model="product_create.weight" required class="form-control" id="weight" placeholder="Nhập trọng lượng">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="weightUnit">Đơn vị trọng lượng</label>
+                <select class="form-control" id="weightUnit" required ng-model="product_create.weight_unit">
+                    <option value="gram">Gram (g)</option>
+                    <option value="kg">Kilogram (kg)</option>
+                    <option value="lb">Pound (lb)</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Thông tin nhanh -->
+        <!-- <div class="form-group">
+            <label for="quickInfo">Thông tin nhanh</label>
+            <textarea  class="form-control" id="info_short" rows="3" placeholder="Nhập thông tin nhanh"></textarea>
+        </div> -->
+        <!-- Thông tin nhanh -->
+        <div class="form-group container_info">
+            <label for="quickInfo">Thông tin chi tiết</label>
+            
+            <div class="form-control" model="product_create.infomation_long" id="info_long" required ng-value="product_create.infomation_long"></div>
+        </div>
+        <!-- Loại sản phẩm -->
+        <div class="form-group">
+            <label for="category" ng-model="product_create.category_code">Loại sản phẩm</label>
+            <select class="form-control" required id="category">
+                <option value="1">Điện tử</option>
+                <option value="2">Thời trang</option>
+                <option value="3">Gia dụng</option>
+                <option value="4">Khác</option>
+            </select>
+        </div>
+
+        <!-- Biến thể -->
+        <div class="form-group">
+            <label for="variant" ng-model="product_create.varians">Biến thể</label>
+            <div class="col-auto" ng-repeat="(key_varian, varian) in product_create.varians">
+                {{varian}} <i class="bi bi-x-circle icon-x" ng-click="removeProperty(key_varian)"></i>  
+                
+            </div>
+            <i class="bi bi-plus-circle col-auto" data-toggle="modal" data-target="#condition_shop_popup"></i>  
+        </div>
+
+        <!-- Sản phẩm biến thể -->
+        <div class="form-group">
+            <label for="variantProduct">Biến thể liên kết</label>
+            <input type="text" required class="form-control" ng-model="product_create.varian_product" id="variantProduct" rows="3" placeholder="Nhập mã sản phẩm biến thể để show slideshow trong chi tiết sản phẩm"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary" ng-click="saveProduct()">Tạo sản phẩm</button>
+    </form>
+</div>
+<div class="modal fade" id="condition_shop_popup" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="infoModalLabel">Thêm thuộc tính Biến thể sản phẩm <strong>{{product_create.name}}</strong></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                    <div class="row col-12">
+                            <input class="form-control col-10" type="text" ng-model="property.item" placeholder="Nhập thuộc tính mới vào đây...">
+                            <button class="col-2 btn btn-success" data-dismiss="modal"   ng-click="addProperty(property.item)">Lưu</button>
+                    </div>
+            </div>
+            <!-- <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary">Lưu</button>
+            </div> -->
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="add_more_image" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="infoModalLabel">Thêm hình ảnh sản phẩm <strong>{{product_create.name}}</strong></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                            <input class="form-control-file" type="file" accept=".png, .jpg, .jpeg" multiple id="add_product_image" >
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                <button class="col-2 btn btn-success" data-dismiss="modal"   ng-click="addImageProductDetail()">Lưu</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+<script>
+
+</script>
+</script>

@@ -1,0 +1,26 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 14px;
+}
+.menu{
+    /* background-color: red; */
+    
+}
+.menu-item{
+    margin-left: 30px;
+    color: blue;
+}
+.avatar {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border-radius: 20px;
+  }
+  .prev-icon{
+        font-size: 30px;
+  }
+  .prev-icon:hover{
+    cursor: pointer;
+  }

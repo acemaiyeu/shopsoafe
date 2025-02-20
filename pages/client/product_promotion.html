@@ -1,0 +1,61 @@
+<div ng-controller="HomeController">
+      <div class="row">
+            <div class="col-2 fillter col-content">
+
+            </div>
+            <div class="col-8 col-content">
+                  <div class="row">
+                        <div class="col-3">
+                              <span class="col-9 title-fillter">Fillter</span>
+                              <span class="col-3 btn btn-success" id="btn-fillter" ng-click="fillterClick()">Lọc</span>
+
+                              <form method="post" class="label-fillter">
+                                    <div ng-repeat="item in fillters">
+                                          <div ng-repeat="i in item">
+                                                <h3>{{i.property}}</h3> <br>
+                                                <div ng-repeat="ii in i.value.data">
+                                                      <input type="checkbox" class="fillter_input" 
+                                                          onclick="" value="{{i.property+ '_' + ii}}"> {{ii}}
+                                                </div>
+
+                                          </div>
+                                    </div>
+                                    <!-- @foreach ($fillter['datas'] as $key => $f)
+                                          <label for="" class="lable-fillter-title">{{$key}}</label> <br/>
+                                          @foreach ($f as $f1) 
+                                          <input class="input-value" type="checkbox" value={{$key ."-". $f1}}> {{$f1}} <br/>
+                                          @endforeach     
+                              @endforeach -->
+                              </form>
+                        </div>
+                        <div class="col-9 row">
+                                    <span class="khung col-4" ng-repeat="item in products">
+                                                <div class="row">
+                                                      <img src="../img/avatar1.jpg" alt="">
+                                                </div>
+                                                <div class="row product_name">{{item.name}}</div>
+                                                <div class="row product_price">
+                                                      <p>{{item.price_show}}</p>
+                                                </div>
+                                                <div class="row product_info">
+                                                      <li ng-repeat="info in item.infomation_short">{{info}}</li>
+                                                </div>
+                                                <div class="row btn-button-product">
+                                                      <button type="button"  class="btn btn-primary btn-tim-hieu" data-toggle="button" aria-pressed="false" autocomplete="off">
+                                                            Tìm hiểu thêm
+                                                          </button>
+                                                          <button type="button" class="btn btn-primary btn-gio-hang offset-1" ng-click='addProduct(item.id)' data-toggle="button" aria-pressed="false" autocomplete="off">
+                                                            <i class="fa fa-shopping-cart"></i>
+                                                          </button>
+                                                </div>
+                                    </span>
+                        </div>
+                  </div>
+            </div>
+            <div class="col-2 col-content">
+                  <!-- phải -->
+            </div>
+      </div>
+      <textarea  id="code_html"></textarea>
+      <button  onclick="get_html()">get html</button>
+</div>

@@ -1,0 +1,134 @@
+    
+    <div class="container col-12">
+        <i class="bi bi-reply prev-icon"  ng-click="redirectWarehouseDetail()"></i>
+        <h2 class="text-center">Xuất Nhập kho hàng</h2>
+        
+        <!-- Form nhập dữ liệu -->
+        <div class="card p-3 mb-4">
+            <h5>Nhập thông tin</h5>
+            <div class="form-row align-items-end">
+                <div class="form-group col-md-3" hidden>
+                    <label for="warehouseCode">ID</label>
+                    <input type="text"  id="warehouseCode" ng-model="warehouse_product_warehouse_detail_id_input" class="form-control" placeholder="Chọn mã kho" readonly data-toggle="modal" data-target="#warehouseModal">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="productCode">Mã sản phẩm</label>
+                    <input type="text" id="productCode" ng-model="warehouse_product_product_input" class="form-control" placeholder="Chọn mã sản phẩm" readonly data-toggle="modal" data-target="#productModal">
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="status">Trạng thái</label>
+                    <select id="status" ng-model="warehouse_product_status_input" class="form-control">
+                        <option value="IMPORT">Nhập hàng</option>
+                        <option value="EXPORT">Xuất hàng</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="quantity" >Số lượng</label>
+                    <input type="number" id="warehouse_product_qty_input" class="form-control" placeholder="Nhập số lượng">
+                </div>
+                <div class="form-group col-md-2">
+                    <button class="btn btn-success btn-block" ng-click="saveWarehouseProductDetail()">Lưu</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Form lọc dữ liệu -->
+        <div class="card p-3 mb-4">
+            <h5>Bộ lọc</h5>
+            <div class="form-row align-items-end">
+                <div class="form-group col-md-2">
+                    <input ng-model="warehouse_product_warehouse_param" type="text" class="form-control" placeholder="Tên kho hàng">
+                </div>
+                <div class="form-group col-md-2">
+                    <input ng-model="warehouse_product_product_param" type="text" class="form-control" placeholder="Tên sản phẩm">
+                </div>
+                <div class="form-group col-md-2">
+                    <select class="form-control" ng-model="warehouse_product_status_param">
+                        <option value="" >Trạng thái</option>
+                        <option value="Nhập hàng" value="IMPORT">Nhập hàng</option>
+                        <option value="Xuất hàng" value="EXPORT">Xuất hàng</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-2">
+                    <input type="text" ng-model="warehouse_product_person_param" class="form-control" placeholder="Người nhập/xuất">
+                </div>
+                <div class="form-group col-md-2">
+                    <button class="btn btn-primary btn-block" ng-click="getWarehouseProductDetail()">Tìm kiếm</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bảng dữ liệu -->
+        <table class="table table-bordered table-striped mt-3">
+            <thead class="thead-dark">
+                <tr>
+                    <th class="col-1">ID</th>
+                    <th class="col-2">Tên kho hàng</th>
+                    <th class="col-3">Tên sản phẩm</th>
+                    <th class="col-1">Số lượng</th>
+                    <th class="col-1">Trạng thái</th>
+                    <th class="col-1">Ngày nhập</th>
+                    <th class="col-1">Người nhập/xuất</th>
+                    <th class="col-1">Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="detail in warehouse_product_details">
+                    <td class="col-1">{{$index + 1}}</td>
+                    <td class="col-2">({{detail.warehouse_detail.warehouse.code}}) &nbsp; {{detail.warehouse_detail.warehouse.name}}</td>
+                    <td class="col-3">({{detail.warehouse_detail.product.code}}) &nbsp; {{detail.warehouse_detail.product.name}}</td>
+                    <td class="col-1">{{detail.qty}}</td>
+                    <td class="col-1">{{detail.status}}</td>
+                    <td class="col-1">{{detail.created_at}}</td>
+                    <td class="col-1">{{detail.created_by}}</td>
+                    <td class="col-1">
+                        <button class="btn btn-outline-success">
+                                In phiếu
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal danh sách kho hàng -->
+    <div class="modal fade" id="warehouseModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Danh sách kho hàng</h5>
+                    
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body row align-items-center">
+                    <select value="" class="form-control col-8 offset-1" ng-model="warehouse_product.warehouse_code">
+                        <option value="{{warehouse.code}}" ng-repeat="warehouse in warehouses">({{warehouse.code}}) &nbsp; {{warehouse.name}}</option>
+                    </select> 
+                    <button  class="btn btn-outline-success col-2"> <i class="bi bi-search"></i> </button>
+                    <button  class="btn btn-outline-success col-1 offset-1" data-dismiss="modal" ng-click="addWarehouseForProductDetail(warehouse_product.warehouse_code)">Thêm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal danh sách sản phẩm -->
+    <div class="modal fade" id="productModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Danh sách sản phẩm</h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body row">
+                    <input type="text" class="form-control col-7 offset-1" ng-model="found_product" placeholder="Vui lòng nhập tên hoặc mã sản phẩm">
+                    <button  class="btn btn-outline-success col-2" ng-click="getAllProduct()"> <i class="bi bi-search"></i> </button>
+                    <select style="margin-top: 10px;" value="" class="form-control col-8 offset-1" ng-model="warehouse_product.product_code">
+                        <option value="{{product.code}}" ng-repeat="product in products">({{product.code}}) &nbsp; {{product.name}}</option>
+                    </select>
+                    <button style="margin-top: 10px;"  class="btn btn-outline-success col-2 "  data-dismiss="modal" ng-click="addProductForProductDetail(warehouse_product.product_code)">Thêm</button>
+                    
+                </div>
+                
+            </div>
+        </div>
+    </div>

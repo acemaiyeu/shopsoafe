@@ -1,0 +1,11 @@
+<div ng-controller="OrderController">
+        <div ng-if="order_code" class="col-12 align-items-center text-body text-center">
+            <h3>Chúc mừng bạn đã đặt hàng thành công</h3>
+            <h2>Mã đơn hàng của quý khách là: {{order_code}}</h2>
+            <h5 id="">{{message_order_complete}}</h5>
+        </div>
+        <div ng-if="!order_code" class="col-12 align-items-center text-body text-center">
+            <h3>Không tìm thấy đơn hàng</h3>
+            <h5>{{message_not_found_order}}</h5>
+        </div>
+</div>  

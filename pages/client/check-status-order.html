@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kiểm Tra Đơn Hàng</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .order-status {
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .status-pending { color: orange; }
+        .status-shipped { color: blue; }
+        .status-delivered { color: green; }
+    </style>
+</head>
+<body ng-controller="OrderController"> 
+
+<div class="container mt-5 row align-items-center col-8 offset-2 text-center d-none d-md-block">
+        <label for="" class="col-form-label col-auto offset-1">Mã đơn hàng: </label> 
+        <input type="text" ng-model="code_order_status" class="form-control col-4">
+        <label for="" class="col-form-label col-auto">Số điện thoại: </label> 
+        <input type="text" ng-model="phone_order_status" class="form-control col-2"> &nbsp;&nbsp;
+        <button class="btn btn-outline-primary" ng-click="getOrderDetailByCode(code_order_status,phone_order_status)">Kiểm tra</button>
+</div>
+<div class="container mt-5 row align-items-center col-12 text-center d-block d-md-none">
+    <label for="" class="col-form-label col-auto">Mã đơn hàng: </label> 
+    <input type="text" ng-model="code_order_status" class="form-control col-11 offset-1">
+    <label for="" class="col-form-label col-auto">Số điện thoại: </label> 
+    <input type="text" ng-model="phone_order_status" class="form-control col-11 offset-1"> &nbsp;&nbsp;
+    <button class="btn btn-outline-primary" ng-click="getOrderDetailByCode(code_order_status,phone_order_status)">Kiểm tra</button>
+</div>
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Kiểm Tra Đơn Hàng</h2>
+
+    <!-- Thông tin đơn hàng -->
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <h5>Thông Tin Đơn Hàng</h5>
+        </div>
+        <div class="card-body">
+            <p><strong>Mã đơn hàng:</strong> <span id="order-id">{{order.code}}</span></p>
+            <p><strong>Ngày đặt hàng:</strong> <span id="order-date">{{order.created_at}}</span></p>
+            <p><strong>Tên khách hàng:</strong> <span id="order-id">{{order.username}}</span></p>
+            <p><strong>Trạng thái:</strong> 
+                <span id="order-status" class="order-status status-pending" ng-if="order.status == 'PENDING'">Đang xử lý</span>
+                <span id="order-status" class="order-status status-pending" ng-if="order.status == 'APPROVED'">Đã xử lý</span>
+                <span id="order-status" class="order-status status-pending" ng-if="order.status == 'SHIPPING'">Đang giao hàng</span>
+                <span id="order-status" class="order-status status-pending" ng-if="order.status == 'SHIPPED'">Đã giao hàng</span>
+                <span id="order-status" class="order-status status-pending" ng-if="order.status == 'COMPLETED'">Hoàn thành</span>
+                <span id="order-status" class="order-status status-pending" ng-if="order.status == 'CANCEL'">Đã hủy</span>
+            </p>
+        </div>
+    </div>
+
+    <!-- Danh sách sản phẩm -->
+    <div class="card mb-4">
+        <div class="card-header bg-success text-white">
+            <h5>Chi Tiết Sản Phẩm</h5>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered table-responsive">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>#</th>
+                        <th>Sản phẩm</th>
+                        <th>Số lượng</th>
+                        <th>Giá</th>
+                        <th>Khuyến mãi</th>
+                        <th>Tổng khuyến mãi</th>
+                        <th>Thành tiền</th>
+                    </tr>
+                </thead>
+                <tbody id="order-items">
+                    <tr ng-repeat="detail in order.details">
+                        <td>{{$index + 1}}</td>
+                        <td>{{detail.product_name}}</td>
+                        <td>{{detail.qty}}</td>
+                        <td>{{detail.price_text}}</td>
+                        <td>{{detail.discount_code}}</td>
+                        <td>{{detail.discount_price_text}}</td>
+                        <td>{{detail.total_price_text}}</td>
+                    </tr>
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header bg-success text-white">
+            <h5>Chi Tiết Quà tặng</h5>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>#</th>
+                        <th>Chương trình</th>
+                        <th>Sản phẩm</th>
+                        <th>Số lượng</th>
+                    </tr>
+                </thead>
+                <tbody id="order-items">
+                    <tr ng-repeat="gift in order.gifts" >
+                        <td>{{$index + 1}}</td>
+                        <td>{{gift.promotion_name}}</td>
+                        <td>({{gift.product_code}}) &nbsp; {{gift.product_name}}</td>
+                        <td>{{gift.qty}}</td>
+                    </tr>
+                 
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Tổng tiền -->
+    <div class="text-right" ng-repeat="info in order.info_payment">
+        <h4><strong>{{info.name_show}}: </strong> <span id="order-total">{{info.total_price_text}}</span></h4>
+    </div>
+</div>
+
+</body>
+</html>

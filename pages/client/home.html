@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh Sách Sản Phẩm</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container col-10 offset-1" ng-controller="HomeController">
+   
+
+
+    <div class="row">
+       
+      <div class="row col-sm-2 d-none d-md-block" >
+            <div class="row">
+                <!-- Cột Bộ Lọc -->
+                <div class="col-md-12">
+                    <h5 class="mb-3">Bộ Lọc</h5>
+                    <!-- Lọc theo giá -->
+                    <h6 class="mt-3">Khoảng giá</h6>
+                    <input type="number" id="minPrice" class="form-control mb-2" placeholder="Giá thấp nhất">
+                    <input type="number" id="maxPrice" class="form-control mb-2" placeholder="Giá cao nhất">
+        
+                    <!-- Lọc theo thương hiệu -->
+                   <div ng-repeat="(key, fillter) in fillters.fillters">
+                        <h6>{{fillter.property_name}}</h6>
+                        <div class="form-check" ng-repeat="(key_item, item) in fillter.value.data">
+                            <input class="form-check-input brand-filter" type="checkbox"  value="{{item}}" ng-click="fillterClick(fillter.property,key_item)" id="{{fillter.property}}{{key_item}}">
+                            <label class="form-check-label" for="xiaomi">{{item}}</label>
+                        </div>
+                   </div>
+        
+                    <button class="btn btn-primary btn-block mt-3" id="filterBtn" ng-click="fillter_search()">Lọc</button>
+                </div>
+        </div>
+      </div>
+    
+      <div class="row col-sm-2 d-block d-md-none" >
+        <div class="row">
+            <!-- Cột Bộ Lọc -->
+            <div class="col-md-12">
+                <h5 class="mb-3">Bộ Lọc</h5>
+                <!-- Lọc theo giá -->
+                <h6 class="mt-3">Khoảng giá</h6>
+                <input type="number" id="minPrice" class="form-control mb-2" placeholder="Giá thấp nhất">
+                <input type="number" id="maxPrice" class="form-control mb-2" placeholder="Giá cao nhất">
+    
+                <!-- Lọc theo thương hiệu -->
+               <div ng-repeat="(key, fillter) in fillters.fillters">
+                    <h6>{{fillter.property_name}}</h6>
+                    <div class="form-check" ng-repeat="(key_item, item) in fillter.value.data">
+                        <input class="form-check-input brand-filter" type="checkbox"  value="{{item}}" ng-click="fillterClick(fillter.property,key_item)" id="{{fillter.property}}{{key_item}}">
+                        <label class="form-check-label" for="xiaomi">{{item}}</label>
+                    </div>
+               </div>
+    
+                <button class="btn btn-primary btn-block" id="filterBtn" ng-click="fillter_search()">Lọc</button>
+            </div>
+    </div>
+  </div>
+  <div class="row col-12" style="margin-bottom: 15px; margin-top: 20px; margin-left: 0px;">
+    <input class="form-control col-md-11 col-sm-12 " id="search-input" type="search" placeholder="Tìm kiếm sản phẩm" aria-label="Tìm kiếm" >
+    <button class="btn btn-primary col-md-1 col-sm-4" type="submit" ng-click="searchProduct()">Tìm kiếm</button>
+</div>
+  <!-- <div class="row col-10 d-none d-md-block">
+    <div class="row col-12" style="margin-bottom: 15px; margin-left: 0px;">
+          <input class="form-control col-11" id="search-input" type="search" placeholder="Tìm kiếm" aria-label="Tìm kiếm" >
+          <button class="btn btn-primary col-1" type="submit" ng-click="searchProduct()">Tìm kiếm</button>
+    </div>
+    <div class="container"  ng-if="promotions_show.length > 0" ng-repeat="promotion in promotions_show">
+      <img src="/img/{{promotion.img}}" class="col-12" width="100%" alt="" >
+      <h2 class="deal-title">{{promotion.name}}</h2>
+      
+      <div class="row khung-image-promotion">
+
+          <div class="col-md-3 mb-4" ng-repeat="product in promotion.product_promotion">
+              <div class=" col-12 product-card">
+                  <span class="discount-badge">Giảm {{product.discount_percent_text}}</span>
+                  <img  src="/img/{{product.image_url}}" class="product-img" alt="Loa thanh Samsung">
+                  <h5>{{product.name}}</h5>
+                  <p class="price">{{product.discount_price_text}} <span class="old-price">{{product.discount_old_price_text}}</span></p>
+                  <button class="btn btn-danger btn-sm" ng-click="addProduct(product.id)">Thêm vào giỏ hàng</button>
+              </div>
+          </div>
+      </div>
+  </div>
+   
+          <div class="card col-3" ng-click="productDetail(product.id)" ng-repeat="product in products" >
+              <img src="/img/{{ product.image_url }}"  class="card-img-top" alt="/img-{{product.name}}">
+
+              <div class="card-body text-center">
+                  <h5 class="card-title">{{product.name}}</h5>
+                  <p class="card-text text-danger font-weight-bold"> {{product.price_show}}</p>
+                  <a href="#" class="btn custom-btn" ng-click="addProduct(product.id)">Thêm vào giỏ</a>
+              </div>
+          </div>
+
+      
+    <div class="col-12">
+          <button class="btn btn-success col-4 offset-4" ng-if="meta_products.total - meta_products.count > 0"  ng-click="showMoreProduct(meta_products.links.next)">Hiển thị thêm {{meta_products.total - meta_products.count}} sản phẩm</button>
+    </div>
+  </div> -->
+  <div class="container mt-4">
+    <!-- Hiển thị trên màn hình máy tính -->
+    <div class="row d-none d-md-flex">
+
+        <div class="col-md-4" ng-repeat="product in products">
+            <div class="product-card shadow">
+                <!-- <span class="discount-badge">-10%</span> -->
+                <img src="/img/{{product.image_url}}" alt="Sản phẩm">
+                <div class="product-info">
+                    <p class="product-name">{{product.name}}</p>
+                    <p class="product-price">{{product.price_show}}<span class="old-price" ng-if="product.price_old">{{product.price_old_text}}</span></p>
+                    <button class="btn btn-add-to-cart" ng-click="addProduct(product.id)">Thêm vào giỏ hàng</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Hiển thị trên màn hình điện thoại -->
+    <div class="row d-block d-md-none" ng-repeat="product in products">
+        <div class="col-12">
+            <div class="product-card shadow">
+                <!-- <span class="discount-badge">-10%</span> -->
+                <img src="/img/{{product.image_url}}" ng-click="productDetail(product.id)" alt="Sản phẩm">
+                <div class="product-info" >
+                    <p class="product-name" ng-click="productDetail(product.id)">{{product.name}}</p>
+                    <p class="product-price" ng-click="productDetail(product.id)">{{product.price_show}}<span ng-if="product.price_old_text" class="old-price">350,000₫</span></p>
+                    <button class="btn btn-add-to-cart" ng-click="addProduct(product.id)">Thêm vào giỏ hàng</button>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+<!-- Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

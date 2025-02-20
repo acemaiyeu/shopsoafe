@@ -1,0 +1,34 @@
+
+<div class="row col-12">
+    <h1 class="col-12">CHƯƠNG TRÌNH KHUYẾN MÃI</h1>
+    <div class="col-12">
+        Fillter
+    </div>
+    <div class="col-12 promotion">
+        <table class="table table-hover col-12  table-responsive-sm">
+            <thead>
+              <tr>
+                <th scope="col-md-1">#</th>
+                <th scope="col-md-1">Code</th>
+                <th scope="col">Tên</th>
+                <th scope="col">Ngày bắt đầu</th>
+                <th scope="col">Ngày kết thúc</th>
+                <th scope="col">Hành động</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="promotion in promotions">
+                <th scope="row">{{promotion.id}}</th>
+                <td>{{promotion.code}}</td>
+                <td>{{promotion.name}}</td>
+                <td>{{promotion.start_time}}</td>
+                <td>{{promotion.end_time}}</td>
+                <td class="row">
+                    <button class="col btn btn-light" ng-click="editPromotion(promotion.id)">Chỉnh sửa</button>
+                    <button class="col btn btn-danger">Xóa</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+</div>

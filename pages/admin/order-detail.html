@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi Tiết Đơn Hàng</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.0/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container mt-4" ng-controller="OrderController">
+    <div class="card">
+        <div class="card-header bg-white">
+            <h4 class="text-center font-weight-bold">Chi tiết đơn hàng</h4>
+        </div>
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5>Đơn hàng: <a href="#">{{order_detail.code}}</a></h5>
+                <span class="badge badge-warning" ng-if="order_detail.status == 'PENDING'">ĐANG XỬ LÝ</span>
+                <span class="badge badge-primary" ng-if="order_detail.status == 'APPROVED'">ĐÃ XỬ LÝ</span>
+                <span class="badge badge-primary" ng-if="order_detail.status == 'SHIPPING'">ĐANG GIAO HÀNG</span>
+                <span class="badge badge-primary" ng-if="order_detail.status == 'SHIPPED'">ĐÃ GIAO HÀNG</span>
+                <span class="badge badge-success" ng-if="order_detail.status == 'COMPLETED'">ĐÃ HOÀN THÀNH</span>
+            </div>
+            <p>{{order_detail.created_at}}</p>
+
+            <!-- Thông tin khách hàng -->
+           
+                <div class="col-md-12">
+                    <div class="border p-3">
+                        <h6 class="font-weight-bold">KHÁCH HÀNG</h6>
+                        <p class="mb-0">{{order_detail.username}}</p>
+                        <p>{{order_detail.phone_number}}</p>
+                        <p>Địa chỉ: {{order_detail.address}}</p>
+                    </div>
+                </div>
+                <!-- <div class="col-md-6">
+                    <div class="border p-3">
+                        <h6 class="font-weight-bold">NGƯỜI NHẬN</h6>
+                        <p class="mb-0">{{order_detail.username}}</p>
+                        <p>{{order_detail.phone_number}}</p>
+                        <p>Địa chỉ: {{order_detail.address}}</p>
+                    </div>
+                </div>
+            </div> -->
+
+            <!-- Danh sách sản phẩm -->
+            <h6 class="mt-4 font-weight-bold">Sản phẩm</h6>
+            <table class="table table-bordered">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Tên sản phẩm</th>
+                        <th>Đơn giá</th>
+                        <th>Số lượng</th>
+                        <th>Khuyến mãi</th>
+                        <th>Giảm giá khuyến mãi</th>
+                        <th>Tổng tiền</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="detail in order_detail.details">
+                        <td>{{detail.product_name}}</td>
+                        <td>{{detail.price_text}}</td>
+                        <td>{{detail.qty}}</td>
+                        <td>{{detail.discount_name}}</td>
+                        <td>{{detail.discount_price_text}}</td>
+                        <td>{{detail.total_price_text}}</td>
+                    </tr>
+                    
+                </tbody>
+            </table>
+
+             <!-- Danh sách quà -->
+             <h6 class="mt-4 font-weight-bold" ng-if="order_detail.gifts.length > 0">Quà tặng</h6>
+             <table class="table table-bordered" ng-if="order_detail.gifts.length > 0">
+                 <thead class="thead-light">
+                     <tr>
+                         <th>#</th>
+                         <th>Chương trình</th>
+                         <th>Sản phẩm</th>
+                         <th>Số lượng</th>
+                        
+                     </tr>
+                 </thead>
+                 <tbody>
+                     <tr ng-repeat="gift in order_detail.gifts" >
+                         <td>{{$index + 1}}</td>
+                         <td>{{gift.promotion_name}}</td>
+                         <td>{{gift.product_name}}</td>
+                         <td>{{gift.qty}}</td>
+                     </tr>
+                     
+                 </tbody>
+             </table>
+
+            <div class="col-md-6">
+                <p>Ghi chú: <strong>{{order_detail.note}}</strong> </p>
+            </div>  
+            <!-- Thanh toán -->
+            <div class="row">
+                <div class="col-md-6">
+                    <h6 class="font-weight-bold">Phương thức thanh toán</h6>
+                    <!-- <p>Tiền mặt: <strong>10.000.000 đ</strong></p>
+                    <p>VnpayQR: <strong>6.000.000 đ</strong></p> -->
+                    <p>Thanh toán khi nhận hàng (COD)</p>
+                </div>
+                <div class="col-md-6">
+                    <h6 class="font-weight-bold">Tổng thanh toán</h6>
+                    <p>Tạm tính: <strong>{{order_detail.info_payment[0].total_price_text}}</strong></p>
+                    <p ng-repeat="(key,info) in order_detail.info_payment"><span ng-if="key != 0 && key != order_detail.info_payment.length - 1 ">{{info.name_show}}:  <span class="text-danger">{{info.total_price_text}}</span></p></span>
+                  
+                    <p><strong>Thành tiền: {{order_detail.info_payment[order_detail.info_payment.length-1].total_price_text}}</strong></p>
+                    <p class="h5 text-danger font-weight-bold">Cần thanh toán: {{order_detail.info_payment[order_detail.info_payment.length-1].total_price_text}}</p>
+                </div>
+            </div>
+            <!-- Nút chức năng -->
+            <div class="text-right mt-3">
+                <!-- <button class="btn btn-outline-secondary">Ghi chú <span class="badge badge-danger" *ng-if="order_detail.note.length > 0">1</span></button> -->
+                <button class="btn btn-warning" ng-click="changeStatusOrder(1)" ng-disabled="order_detail.status != 'PENDING'">Duyệt đơn</button>
+                <button class="btn btn-danger" ng-click="changeStatusOrder(5)" ng-disabled="order_detail.status != 'PENDING'">Hủy đơn</button>
+                <button class="btn btn-primary">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.0/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

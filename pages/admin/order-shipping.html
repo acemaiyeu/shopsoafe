@@ -1,0 +1,67 @@
+<div ng-controller="OrderController">
+    <div class="row col-12">
+        <div class="row col-11 offset-1">
+                <div class="row col-2">
+                    <label for="">Mã đơn hàng: &nbsp;&nbsp;</label>
+                    <input id="order_code_input" type="text" class=" col form-control" ng-model="order_code_params">&nbsp;&nbsp;
+                </div>
+                <div class="row col-2">
+                    <label for="">Tên khách hàng: &nbsp;&nbsp;</label>
+                    <input id="order_username_input" type="text" ng-model="username_params" class=" col form-control">&nbsp;&nbsp;
+                </div>
+                <div class="row col-auto">
+                    <label for="">Trạng thái đơn hàng: &nbsp;&nbsp;</label>
+                    <select name="" id="" ng-model="status_order_params" class="form-control col-5">
+                        <option value="PENDING">Chưa duyệt</option>
+                        <option value="APPROVED ">Đã duyệt</option>
+                        <option value="SHIPPING">Đang giao hàng</option>
+                        <option value="SHIPPED">Đã giao hàng</option>
+                        <option value="COMPLETED">Đã hoàn thành</option>
+                    </select>
+                </div>
+                <div class="row col-4">
+                    <label for="">Ngày tạo: &nbsp;&nbsp;</label>
+                    <input type="datetime-local" class="col-5 form-control" ng-model="start_time_params" placeholder="Ngày bắt đầu">
+                    <input type="datetime-local" class="col-5 form-control" ng-model="end_time_params" placeholder="Ngày kết thúc">
+                </div>
+
+    
+                &nbsp;&nbsp; <button class="btn btn-primary row col-1" ng-click="searchOrders()"><i class="bi bi-search"></i></button>
+        
+        </div>
+            <table class="table table-bordered text-center">
+                    <tr class="row col-12">
+                        <!-- <th class="col-1" >ID</th> -->
+                        <th class="col-2">Code</th> 
+                        <th class="col-2">Khách hàng</th>
+                        <th class="col-3">Địa chỉ</th>
+                        <th class="col-1">Tổng tiền</th>
+                        <th class="col-1">Trạng thái</th>
+                        <th class="col-1">Ngày tạo</th>
+                        <th class="col-1">Hành động</th>
+                    </tr>
+                    <tr class="row col-12" ng-repeat="order in orders">
+                        <!-- <td class="col-1" ng-click="detailOrder(order.id)">{{order.id}}</td> -->
+                        <td class="col-2" ng-click="detailOrderClick(order.id)">{{order.code}}</td>
+                        <td class="col-2">{{order.username}}</td>
+                        <td class="col-3">{{order.address}}</td>
+                        <td class="col-1 text-right">{{order.total_price_text}}</td>
+                        <td class="col-1">{{order.status_text}}</td>
+                        <td class="col-1">{{order.created_at}}</td>
+                        <td class="col-1">
+                            <button class="btn btn-outline-success" ng-click="changeStatusOrderById(3, order.id)">Cập nhật đã giao hàng</button>
+                        </td>
+                    </tr>
+            </table>
+            <div class="col-2 offset-10 ">
+                    <button class="btn btn-primary" ng-click="getOrderByLink('1')" ng-disabled="meta_orders.pagination.current_page == 1">|<</button>
+                    <button class="btn btn-success"ng-click="getOrderByLink(meta_orders.pagination.links.previous)" ng-disabled="meta_orders.pagination.current_page == 1"><</button>
+                    <div class="btn btn-outline-primary col-2">{{meta_orders.pagination.current_page}}/{{meta_orders.pagination.total_pages}}</div>
+                    <button class="btn btn-success" ng-click="getOrderByLink(meta_orders.pagination.links.next)">></button>
+                    <button class="btn btn-primary" ng-click="getOrderByLink(meta_orders.pagination.total_pages)" ng-disabled="meta_orders.pagination.current_page == meta_orders.pagination.total_pages">>|</button>
+            </div>
+    </div>
+    <script src="/js/index_admin.js"></script>
+</div>
+<!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
+<!-- <script src="/js/index_admin.js"></script> -->

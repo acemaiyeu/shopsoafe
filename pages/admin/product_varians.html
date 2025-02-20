@@ -1,0 +1,56 @@
+<link rel="stylesheet" href="/css/product-varian.css">
+<div ng-controller="ProductVarianController" class="row col-12">
+        <div class="col-12">
+            Biến thể sản phẩm: <strong>{{varians[0].product.name}}</strong>
+        </div>
+        <div class="row col-12 varian-item">
+               <table class="col-12 table table-light">
+                    <tr>
+                        <th class="col-1">ID</th>
+                        <th class="col-1">Hình</th>
+                        <th class="col-3">Mô tả</th>
+                        <th class="col-4">Thuộc tính</th>
+                        <th class="col-1">Giá</th>
+                        <th class="col-2">Hành động</th>
+                    </tr>
+                    <tr ng-repeat="varian in varians">    
+                        <td >{{varian.id}}</td>
+                        <td ><img src="/img/{{varian.image_url}}" width="50px" height="50px" alt="img-{{varian.image_url}}"></td>
+                        <td >{{varian.description}}</td>
+                        <td  class="row">
+                                <div class="col-auto" ng-repeat="properti in varian.datas.data">
+                                    {{properti.property}} <i class="bi bi-x-circle icon-x" ng-click="removeProperty(varian.id,properti.property)"></i>    
+                                </div>
+                                <i class="bi bi-plus-circle col-auto" data-toggle="modal" data-target="#condition_shop_popup" ng-click="clickProperyPopup(varian.id)"></i>
+                        </td>
+                        <td >{{varian.price_text}}</td>
+                        <td class="row col-12">
+                            <button class="btn btn-primary col-6">Chỉnh sửa</button>
+                            <button class="btn btn-danger col-6">Xóa</button>
+                        </td>
+                    </tr>
+               </table>
+        </div>
+        <div class="modal fade" id="condition_shop_popup" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="infoModalLabel">Thêm thuộc tính Biến thể sản phẩm <strong>{{varians[0].product.name}}</strong></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                            <div class="row col-12">
+                                    <input class="form-control col-10" type="text" ng-model="property.item" placeholder="Nhập thuộc tính mới vào đây...">
+                                    <button class="col-2 btn btn-success" data-dismiss="modal"   ng-click="addProperty(property.item)">Lưu</button>
+                            </div>
+                    </div>
+                    <!-- <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                        <button type="button" class="btn btn-primary">Lưu</button>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+</div>

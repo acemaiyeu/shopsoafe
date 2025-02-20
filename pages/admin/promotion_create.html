@@ -1,0 +1,226 @@
+<link rel="stylesheet" href="/css/promotion.css">
+<div class="container mt-4">
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="tab1-tab" onclick="clickTab(1)" data-toggle="tab" href="/promotion-create/admin/#!/#tab1" role="tab">Khuyến mãi</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="tab2-tab" onclick="clickTab(2)" ng-click="conditionTab()"  data-toggle="tab" href="/promotion-create/admin/#!/#tab2" role="tab">Điều kiện</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="tab3-tab" onclick="clickTab(3)"  ng-click="giftTab()" data-toggle="tab" href="/promotion-create/admin/#!/#tab3" role="tab">Quà tặng</a>
+        </li>
+    </ul>
+    <div class="tab-content mt-3" id="myTabContent">
+            <div class="tab-pane fade show active promotion-form" id="tab1" role="tabpanel">  
+                <div class="row col-12" style="display: none;">
+                    <label class="col-2">ID chương trình:</label> 
+                    <input type="text" ng-model="promotion.id"  class="form-control col-12">    
+            </div>
+            <div class="row col-12">
+                    <label class="col-2">Mã chương trình:</label> 
+                    <input type="text" ng-model="promotion.code"  class="form-control col-12">    
+            </div>
+            <div class="row col-12">
+                <label class="col-2">Tên chương trình:</label> 
+                <input type="text" ng-model="promotion.name" class="form-control col-12">    
+            </div>
+            <div class="row col-12">
+                <label class="col-2">Thời gian bắt đầu:</label> 
+                <input type="datetime-local" ng-model="promotion.start_time" class="form-control col-12"> 
+                   
+            </div>
+            <div class="row col-12">
+                <label class="col-2">Thời gian kết thúc:</label> 
+                <input type="datetime-local" ng-model="promotion.end_time"  class="form-control col-12">    
+            </div>
+            <div class="row col-12">
+                <label class="col-2">Banner:</label> 
+                <input type="file" ng-model="promotion.img" id="promotion_img"  class="form-control col-12">  
+            </div>
+            <div class="row col-12">
+                <label class="col-2">Trạng thái</label> 
+                <div class="row col-5">
+                    <input type="radio" ng-value=0 class="status col-1" ng-model="promotion.status" name="status"> Không hoạt động
+                    <input type="radio" ng-value=1 class="status col-1" ng-model="promotion.status" name="status"> Hoạt động
+                </div>
+            </div>
+            <div class="row col-12">
+                <label class="col-2">Hiển thị trên website:</label> 
+                <div class="row col-5">
+                    <input type="radio" ng-value=0 class="status col-1" ng-model="promotion.show_web" name="show_web"> Không hiển thị
+                    <input type="radio" ng-value=1 class="status col-1" ng-model="promotion.show_web" name="show_web"> Hiển thị
+                </div>
+            </div>
+        </div>
+        
+        <div class="tab-pane fade" id="tab2" role="tabpanel">
+            <div class="row col-12" ng-repeat="condition in conditions">
+                    <label class="col-2" for="">Điều kiện: </label>
+                    <select class="selectpicker col-4 form-control" ng-model="condition.type" ng-change="showConditionProduct(condition.type, condition.index)" data-live-search="true" value="{{condition.type}}" >
+                        <option ng-selected="condition.type == 'ANY_PRODUCT'" value="ANY_PRODUCT">Khi mua sản phẩm bất kỳ</option>
+                        <option ng-selected="condition.type == 'PRODUCT_ON_CART'" value="PRODUCT_ON_CART">Sản phẩm trong giỏ hàng</option>
+                        <!-- <option value="3">Tùy chọn 3</option> -->                      
+                    </select> 
+                        <select ng-if="condition.type == 'PRODUCT_ON_CART'" class="selectpicker col-4 off form-control" ng-model="condition.apply_product" ng-change="sshowConditionProduct(condition.type, condition.index)" data-live-search="true" value="{{condition.type}}" >
+                            <option ng-selected="condition.type == 'ALL_PRODUCT'" value="ALL_PRODUCT">Tất cả sản phẩm</option>
+                            <option ng-selected="condition.type == 'SOME_PRODUCT'" value="SOME_PRODUCT">Một vài sản phẩm</option>
+                        </select>   
+                    <div class="col-12" ng-if="condition.type == 'PRODUCT_ON_CART'" ng-repeat="(key_data, data) in condition.condition_data">
+                            <label class="col-2" for="">Sản phẩm <i class="bi bi-x-circle" ng-click="removeConditionPromotion(condition.index, $index)"></i></label>
+                            <input ng-model="data.product_code" data-toggle="modal" class="col-3" id="product-condition-item{{condition.index}}.{{data.product_index}}" ng-click="getProductsPromotion(condition.index, data.product_index)" data-target="#Product-condition" type="text" >
+                            <input ng-model="data.product_name" data-toggle="modal" class="col-5" id="product-condition-item{{condition.index}}name.{{data.product_index}}" ng-click="getProductsPromotion(condition.index)" data-target="#Product-condition" type="text" >
+                           <div class="col-10 offset-2">
+                            <select class="selectpicker "  data-live-search="true" id="condition_type_condition-item{{condition.index}}.{{data.product_index}}" ng-model="data.condition_type" ng-change="changeConditionTypeCondition(data.condition_type,condition.index, data.product_index)">
+                                <option value="number" >Số lượng</option>
+                                <option value="price"  >Giá</option>
+                            </select>
+                            <select class="selectpicker"  id="condition-condition-item{{condition.index}}.{{data.product_index}}" data-live-search="true" ng-model="data.condition" ng-change="changeConditionCondition(data.condition,condition.index, data.product_index)">
+                                <option value='<'><</option>
+                                <option value="<="><=</option>
+                                <option value="=">=</option>
+                                <option value=">">></option>
+                                <option value=">=">>=</option>
+                        </select>
+                        <input type="number" class="col-2" ng-value="data.number" ng-model="data.number" ng-change="changeNumberCondition(data.number, condition.index, data.product_index)" id="number-condition-item{{condition.index}}.{{data.product_index}}" min=0>
+                           </div>
+                           <button class="btn btn-success col-2 offset-9" ng-click="addProductConditionPromotion(condition.index, data.product_index)" ng-if="$index == condition.condition_data.length - 1"  style="margin-top: 10px;">Thêm sản phẩm</button>
+                    </div>
+                    
+            </div>
+            <br>
+            <button class="btn btn-dark  col-2" ng-click="addCondition()">Thêm điều kiện</button>
+            <br><br>
+            <div class="row col-12">
+                <label ng-if="conditions.length > 1" class="col-2" for="">Áp dụng điều kiện:</label>
+            <select ng-if="conditions.length > 1" class="selectpicker col-4 form-control" ng-model="promotion.condition_apply" ng-change="sshowConditionProduct(condition.type, condition.index)" data-live-search="true" value="{{condition.type}}" >
+                <option ng-selected="condition.type == 'ALL_PRODUCT'" value="TOGETHER">Tất cả điều kiện</option>
+                <option ng-selected="condition.type == 'SOME_PRODUCT'" value="ANY">Điều kiện bất kì</option>
+            </select>   
+            </div>
+        </div>
+        <div class="tab-pane fade gifts" id="tab3" role="tabpanel">
+                <div class="row col-12" ng-repeat="gift in gifts">
+                        <label for="" class="col-2">Loại quà tặng: </label> &nbsp;&nbsp;&nbsp;
+                        <select name="" id="" class="col-10 selectpicker off form-control"  ng-model="gift.type">
+                            <option value="DIRECT_GIFT">Quà tặng trực tiếp</option>
+                            <option value="DISCOUNT_PRICE">Giảm giá sản phẩm</option>
+                        </select>
+                        <div class="row col-12 gift_item" ng-repeat="gf in gift.gifts">
+                            <label class="col-2" for="">Sản phẩm <i class="bi bi-x-circle" ng-click="removeGiftPromotion(gift.index, $index)"></i></label>
+                            <input data-toggle="modal" ng-model="gf.product_code" class="col-3" id="product-gift-item{{gift.index}}.{{gf.product_index}}" ng-click="getProductsGiftPromotion(gift.index, gf.product_index,'')" data-target="#product-gift" type="text" class="form-control">
+                            <input data-toggle="modal" ng-model="gf.product_name" class="col-7" id="product-gift-item{{gift.index}}name.{{gf.product_index}}" ng-click="getProductsGiftPromotion(gift.index, gf.product_index,'')" data-target="#product-gift" type="text" class="form-control">
+                            <div class="row col-12" ng-if="gift.type == 'DIRECT_GIFT'">
+                                <div class="col-2">Số lượng</div>
+                                <input type="text" ng-model="gf.qty" class="col-3">
+                            </div>
+                            <div class="row col-12"  ng-if="gift.type == 'DISCOUNT_PRICE'">
+                                <select name="" id="" class="col-5 selectpicker off form-control"  ng-model="gf.type_discount">
+                                    <option value="price">Tiền</option>
+                                    <option value="percent">Phần trăm</option>
+                                </select>
+                            </div>
+                            <div class="row col-12"  ng-if="gift.type == 'DISCOUNT_PRICE'">
+                                <div class="col-2" ng-if="gf.type_discount == 'price'">Số tiền</div>
+                                <div class="col-2" ng-if="gf.type_discount == 'percent'">Phần trăm</div>
+                                <input type="text" ng-model="gf.value" class="col-3">
+                            </div>
+                            <button class="btn btn-success col-3" ng-click="addProductGiftPromotion(gift.index, gf.product_index)" ng-if="$index == gift.gifts.length - 1">Thêm sản phẩm</button>                            
+                        </div>
+                        
+                </div>
+        </div>
+
+        <button  class="btn btn-success col-1 offset-9">Mới</button>
+        <button  class="btn btn-success col-1" ng-click="savePromotion()">Lưu</button>
+    </div>
+</div>
+<div class="modal fade"  id="Product-condition" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="infoModalLabel">Thêm sản phẩm vào điều kiện</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                    <div class="row col-12">
+                            <label class="col-4" for="">Mã sản phẩm: </label>
+                            <input class="col-6" type="text" id="input-product-search-condition-popup">
+                            <button class="col-2 btn btn-light" ng-click="getProductsPromotionInPopup('input-product-search-condition-popup')"> <i class="bi bi-search"></i> </button>
+                    </div>
+                    <div class="row col-12">
+                        <select id="value-product-promotion-item" class="selectpicker col-12 form-control" data-live-search="true">
+                           
+                            <option value="{{product.code}},{{product.name}}" ng-repeat="product in products_promotion">({{product.code}}) &nbsp; {{product.name}}</option>
+                        </select>
+                    </div>
+                    <div class="row col-12">
+                        <button class="col-3 offset-9 btn btn-success" data-dismiss="modal" ng-click="addProductsPromotion()">Thêm vào</button>
+                </div>
+            </div>
+            <!-- <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary">Lưu</button>
+            </div> -->
+        </div>
+    </div>
+</div>
+<div class="modal fade"  id="product-gift" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="infoModalLabel">Thêm quà tặng</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                    <div class="row col-12">
+                            <label class="col-4" for="">Mã sản phẩm: </label>
+                            <input class="col-6" type="text" id="input-product-search-gifts-popup">
+                            <button class="col-2 btn btn-light" ng-click="getProductsPromotionInPopup('input-product-search-gifts-popup')"> <i class="bi bi-search"></i> </button>
+                    </div>
+                    <div class="row col-12">
+                        <select id="value-gift-promotion-item" class="selectpicker col-12 form-control" data-live-search="true">
+                            {{products_promotion}}
+                            <option value="{{product.code}},{{product.name}}" ng-repeat="product in products_promotion">({{product.code}}) &nbsp; {{product.name}}</option>
+                        </select>
+                    </div>
+                    <div class="row col-12">
+                        <button class="col-3 offset-9 btn btn-success" data-dismiss="modal" ng-click="addProductsGiftPromotion()">Thêm vào</button>
+                </div>
+            </div>
+            <!-- <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary">Lưu</button>
+            </div> -->
+        </div>
+    </div>
+</div>
+<script>
+        function clickTab(tab){
+                if (tab == 1){
+                    document.getElementById("tab2").classList.remove("active");
+                    document.getElementById("tab2").classList.remove("show");
+                    document.getElementById("tab3").classList.remove("active");
+                    document.getElementById("tab3").classList.remove("show");
+                }
+                if (tab == 2){
+                    document.getElementById("tab1").classList.remove("active");
+                    document.getElementById("tab1").classList.remove("show");
+                    document.getElementById("tab3").classList.remove("active");
+                    document.getElementById("tab3").classList.remove("show");
+                }
+                if (tab == 3){
+                    document.getElementById("tab2").classList.remove("active");
+                    document.getElementById("tab2").classList.remove("show");
+                    document.getElementById("tab1").classList.remove("active");
+                    document.getElementById("tab1").classList.remove("show");
+                }
+                document.getElementById("tab" + tab).classList.toggle("active");
+                document.getElementById("tab" + tab).classList.toggle("show");
+        }
+        
+</script>

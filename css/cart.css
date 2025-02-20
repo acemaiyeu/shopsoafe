@@ -1,0 +1,136 @@
+
+.title-cart{
+    font-size: 50px;
+    text-align: center;
+}
+.cart-info-user{
+    border: 1px solid rgb(204, 201, 201);
+    background-color: whitesmoke;
+    /* margin-bottom: 1px; */
+}
+.cart-info-user>div{
+    /* height: 10px; */
+}
+.cart-info-user>button{
+    top: 20px;
+    right: 0;
+    cursor: pointer;
+    border: none;
+    /* margin-right: 10px; */
+    position: absolute;
+}
+.cart-product-detail-item{
+    margin-top: 20px;
+}
+.btn-product-detail-option{
+    border: 1px solid rgb(224, 224, 224);
+    content: initial;
+    margin-top: 10px;
+}
+.btn-product-detail-option>button{
+        height: 100%;
+        border: none;
+        width: 20px;
+}
+.cart-product-detail-btn-remove>button{
+    border: none;
+    background-color: none;
+    background: none;
+    margin-top: 10px;
+}
+.cart-product-detail-price{
+    margin-top: 10px;
+    color: rgb(235, 38, 38);
+}
+.bi{
+    font-size: 30px;
+}
+.cart-info-payment{
+    text-align: center;
+    align-items: center;
+    background-color: whitesmoke;
+}
+.cart-info-payment>h3{
+    text-align: center;
+}
+.cart-info-payment>div{
+    align-items: center;
+    min-height: 38px;
+    margin-bottom: 30px;
+}
+
+.cart-info-payment button{
+    text-align: center;
+    align-items: center;
+    height: auto;
+    right: 0;
+    bottom: 20;
+    margin-bottom: 20px;
+    position: absolute;
+}
+.line {
+    width: 100%;
+    height: 2px;
+    
+    margin-top: 30px;
+    background-color: black;
+  }
+  .info-payment .total_pay_text{
+    /* border-bottom: 2px; */
+    color:  rgb(235, 38, 38); 
+  }
+  .info-payment{
+    font-size: 1rem;
+    margin-bottom: 5px;
+  }
+  #condition_shop{
+        color: blue;
+  }
+  #condition_shop:hover{
+    color: rgb(32, 32, 243);
+    cursor: pointer;
+}
+.cart-info-payment>div:last-child{
+    margin-top: 10px;
+}
+.promocode-product, .promocode-shipping{
+    margin-left: 10px;
+}
+.card-img-top{
+    /* min-height: px; */
+}
+.card{
+    width: 100%;
+    /* min-height: 350px; */
+}
+.card img{
+    width: 50%;
+    height: auto;
+
+}
+.product-detail img{
+    width: 100%;
+    height: auto;
+
+}
+.card-title{
+    min-height: 5px;
+}
+.cart-product-detail-item{
+
+}
+/* Dành cho màn hình nhỏ hơn 768px (điện thoại) */
+@media (max-width: 768px) {
+    /* #logo{
+            width: 30px;
+            height: 30px;
+    } */
+}
+
+/* Dành cho màn hình lớn hơn 768px (máy tính bảng, laptop, desktop) */
+@media (min-width: 769px) {
+    .card img{
+        width: 10%;
+        height: auto;
+    }
+}

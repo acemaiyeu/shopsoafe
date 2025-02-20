@@ -1,0 +1,39 @@
+<div ng-controller="ProductController">
+    <div class="row col-12">
+            
+            <div class="col-12">
+                Danh sách sản phẩm
+            </div>
+            <div class="col-12">
+                    <p>fillter</p>
+            </div>
+            <div class="col-12">
+                <table class="table table-light table-responsive-sm">
+                    <tr>
+                        <th>ID</th>
+                        <th class="col-1">Mã</th>
+                        <th class="col-3">Tên</th>
+                        <th class="col-1">Nhãn hiệu</th>
+                        <th class="col-1">Loại</th>
+                        <th class="col-1">Trạng thái</th>
+                        <th class="col-1">Giá mặc định</th>
+                        <th class="col-4">Hành động</th>
+                    </tr>
+                    <tr ng-repeat="product in products">
+                        <td class="col-1">{{product.id}}</td>
+                        <td class="col-1">{{product.code}}</td>
+                        <td class="col-3">{{product.name}}</td>
+                        <td class="col-1">{{product.brand}}</td>
+                        <td class="col-1">Điện tử</td>
+                        <td class="col-1">Hiển thị</td>
+                        <td class="col-1">{{product.price}}</td>
+                        <td class="col-4">
+                                <button class="col-md-4 col-sm-12 btn btn-primary" ng-click="editProduct(product.id)">Chỉnh sửa</button>
+                                <button class="col-md-4 col-sm-12 btn btn-outline-primary" ng-click="redirectProductVarian(product.id)">Biến thể</button>
+                                <button class="col-md-4 col-sm-12 btn btn-danger">Xóa</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+    </div>
+</div>

@@ -1,0 +1,23 @@
+table{
+    align-items: center;
+}
+td button{
+    margin-top: -10px;
+}
+.promotion-form>div, #myTabContent>button{
+    margin-top: 10px;
+}
+.modal-body>div{
+    margin-bottom: 10px;
+}
+.gifts , .gifts label, .gifts input, .gifts select{
+    margin-bottom: 10px;
+}
+.gift_item{
+    border: 1px solid rgb(236, 231, 231);
+    margin-bottom: 5px;
+}
+.status{
+    width: 5px;
+    height: 20px;
+}

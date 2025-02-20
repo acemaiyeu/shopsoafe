@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang chủ mua hàng online</title>
+</head>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<!-- Font Awesome 4 -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+
+<link rel="stylesheet" href="./css/index.css">
+<style>
+    .toast-container {
+        position: fixed;
+        /* bottom: 20px; */
+        top: 40px;
+        right: 20px;
+        z-index: 1050;
+        /* background-color: green; */
+    }
+    .menu-fixed {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1030; /* Đảm bảo menu nổi trên cùng */
+        background-color: #343a40; /* Màu nền */
+        padding: 10px;
+        }
+        .sticker-top{
+            z-index: 1000;
+            top: 0;
+            position: fixed;
+            width: 100%;
+        }
+</style>
+<body ng-app="myApp">
+    <div class="col-md-12 col-sm-9">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light sticker-top">
+            <a class="navbar-brand" href="#">
+                <img src="/img/logos.webp" id="logo" alt="Logo"> <!-- Thay logo.png bằng đường dẫn logo của bạn -->
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse offset-4" id="navbarNav">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item"><a class="nav-link" href="#">Điện tử</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Dân dụng</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Bài viết</a></li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="#!/cart"><i class="bi bi-cart"></i></a></li>
+                    <li class="nav-item" id="btn-logup"><a class="nav-link"  href="#">Đăng ký</a></li>
+                    <li class="nav-item" id="btn-login"><a class="nav-link" href="#!/login">Đăng nhập</a></li>
+                    <li class="nav-item">
+                        <li class="nav-item d-block d-md-none">
+                            <a class="nav-link" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">  <i class="bi bi-person"></i>&nbsp;Tài khoản</a>
+                        </li>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#">Thông tin tài khoản</a>
+                            <a class="dropdown-item" href="#">Đơn hàng</a>
+                            <a class="dropdown-item" href="#">Something else here</a> 
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" id="logout" >Đăng xuất</a>
+                          </div>
+                    </li>
+                    
+                </ul>
+            </div>
+        </nav>
+            <div class="row">
+                
+                  <!-- <ul class="nav nav-tabs">
+                 
+                    <li class="nav-item">
+                        <a class="nav-link" href="#!/product-promotion">Sản phẩm khuyến mãi</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Điện tử</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Đồ gia dụng</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Tin tức</a>
+                    </li>
+                </ul> -->
+                <!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+                    <a class="navbar-brand" href="#"><img id="logo" src="./img/logos.webp" alt="logo"></a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+                      <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                      <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#!/product-promotion">Sản phẩm khuyến mãi</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Điện tử</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Đồ gia dụng</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Tin tức</a>
+                        </li>
+                        <li class="nav-item d-block d-md-none">
+                            <a class="nav-link" href="#!/cart">  <i class="bi bi-cart"></i>&nbsp;Giỏ hàng</a>
+                        </li>
+                        <li class="nav-item d-block d-md-none">
+                            <a class="nav-link" href="#!/cart" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">  <i class="bi bi-person"></i></i>&nbsp;Tài khoản</a>
+                        </li>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#">Thông tin tài khoản</a>
+                            <a class="dropdown-item" href="#">Đơn hàng</a>
+                            a class="dropdown-item" href="#">Something else here</a> 
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" id="logout" >Đăng xuất</a>
+                          </div>
+                      </ul>
+                    </div>
+                  </nav> -->
+                </div>
+                <!-- <div class="col-3 top-right-header d-none d-md-block"> 
+                    <span type="submit" class="btn button-cart"  id="button-cart">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+                            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+                          </svg>
+                          <div class="product-cart" id="div-qty-product-cart"><a class="qty-product-cart" href="#!/cart" id="qty-product-cart"></a></div>
+                          </span>   
+                            <span type="submit" id="submit-login"  class="btn btn-success"><a href="#!/login">Đăng nhập</a></span>
+                          <span>
+                            <div class="btn-group">
+                                <img src="" alt="" id="img-profile"  class=" img-profile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <div class="dropdown-menu">
+                              <a class="dropdown-item" href="#">Thông tin tài khoản</a>
+                              <a class="dropdown-item" href="#">Đơn hàng</a>
+                              - <a class="dropdown-item" href="#">Something else here</a> 
+                              <div class="dropdown-divider"></div>
+                              <a class="dropdown-item" id="logout" >Đăng xuất</a>
+                            </div>
+                          </div>
+                        </span>
+                </div> -->
+                <!-- <div class="row col-3 top-right-header d-block d-md-none"> 
+                            <div class="col"> 
+                                
+                            </div>
+                </div> -->
+
+                
+            </div>
+            <div id="openPopup" ng-controller="LoginController"></div>
+           <div class="d-none d-md-block" style="display: block; height: 100px;"></div>
+           <div class="d-block d-md-none" style="display: block; height: 60px;"></div>
+        <div ng-view></div>
+</body>
+<div id="myAlert" class="alert alert-warning alert-dismissible fade show" role="alert" style="display: none;">
+  <strong>Thông báo!</strong> Đây là thông báo tự động ẩn sau 3 giây.
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="toast-container">
+    <div id="customAlert" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3000">
+        <div class="toast-header">
+            <strong class="mr-auto text-primary">Thông báo</strong>
+            <small>Vừa xong</small>
+            <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="toast-body" id="successMessage">
+            Mua hàng tại Shopsoa.vn
+        </div>
+    </div>
+</div>
+<div class="toast-container">
+    <div id="errorToast" class="toast align-items-center text-white bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3000">
+        <div class="d-flex">
+            <div class="toast-body" id="errorMessage">
+                Đã xảy ra lỗi!
+            </div>
+            <button type="button" class="ml-2 mb-1 close text-white" data-dismiss="toast" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-route.min.js"></script>
+
+<script src="./js/index.js"></script>
+<script  src="./js/config.js"></script>
+<script  src="./js/Authentications.js"></script>
+<script>
+    function alertCustom(message) {
+            var myToast = $('#customAlert');
+            myToast.find('.toast-body').text(message); // Cập nhật nội dung
+            myToast.toast('show'); // Hiển thị toast
+            setTimeout(() => myToast.toast('hide'), 3000); // Tự động tắt sau 3 giây
+        }
+        function showErrorPopup(message) {
+            $("#errorMessage").text(message);  // Cập nhật nội dung lỗi
+            var toast = $("#errorToast");
+            toast.toast("show");  // Hiển thị toast
+        }
+        // Gọi thử
+        
+</script>
+
+</html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang admin mua hàng online</title>
+</head>
+<style>
+    .toast-container  {
+        position: fixed;
+        /* bottom: 20px; */
+        top: 20px;
+        right: 20px;
+        z-index: 1050;
+        /* background-color: green; */
+    }
+
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- Font Awesome 4 -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+<script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+
+<!-- <script>
+    ClassicEditor
+        .create(document.querySelector('#quickInfo'))
+        .catch(error => {
+            console.error('Lỗi CKEditor:', error);
+        });
+</script> -->
+
+
+
+<link rel="stylesheet" href="../css/index-admin.css">
+<body ng-app="myAppAdmin" ng-controller="HomeAdminController">
+    <div class="row">
+          <div class="col-md-2 col-sm-2">
+              
+            <!-- <div class="collapse navbar-collapse show menu-item"  >
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="/admin/#!/promotion-list" id="promotion" role="button" ng-click="getPromotions()" data-toggle="dropdown">
+                            Chương trình khuyến mãi
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/admin/#!/promotion-create">Tạo chương trình khuyến mãi</a>
+                            <a class="dropdown-item" href="/admin/#!/promotion-list">Danh sách chương trình khuyến mãi</a>
+                        </div>
+                    </li>
+                </ul>
+            </div> -->
+            <!-- <div class="d-flex col-12"> -->
+                <nav class="bg-light border-right" id="sidebar" style="margin-left: 20px;">
+                    <div class="row col-12 bg-danger text-white">
+                        <div onclick="indexPage()" class="sidebar-heading p-3 col-1 " style="text-align: center;">ADMIN</div>
+                        <div class="sidebar-heading p-3 offset-2" style="text-align: center;">
+                            <div class="dropdown" class="sidebar-heading col-auto" style="text-align: center;">
+                                <!-- Avatar Icon -->
+                                <img src="" alt="Avatar" class="avatar dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span id="avatar_name"></span>
+                                
+                                <!-- Sub Menu (Dropdown) -->
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                  <a class="dropdown-item" href="#">Tài khoản</a>
+                                  <a class="dropdown-item" href="#">Cài đặt</a>
+                                  <div class="dropdown-divider"></div>
+                                  <a class="dropdown-item" ng-click="logout()">Đăng xuất</a>
+                                </div>
+                              </div>
+                        </div>
+                        
+                    </div>
+                    <div class="col-3">
+                        
+                    </div>
+                    <div class="list-group list-group-flush">
+                        <a href="#submenu-order" class="list-group-item list-group-item-action bg-black bg-body-tertiary" data-toggle="collapse">Quản lý Đơn hàng</a>
+                        <div class="collapse" id="submenu-order">
+                            <a href="#" class="list-group-item list-group-item-action pl-4">Đơn hàng chưa duyệt</a>
+                            <a href="#!/order-approved" class="list-group-item list-group-item-action pl-4">Đơn hàng đã duyệt</a>
+                            <a href="#!/order-shipping" class="list-group-item list-group-item-action pl-4">Đơn hàng đang giao</a>
+                            <a href="#!/order-shipped" class="list-group-item list-group-item-action pl-4">Đơn hàng đã giao</a>
+                            <a href="#!/order-completed" class="list-group-item list-group-item-action pl-4">Đơn hàng hoàn thành</a>
+                            <a href="#!/order-cancel" class="list-group-item list-group-item-action pl-4">Đơn hàng đã hủy</a>
+                            <!-- <a href="#" class="list-group-item list-group-item-action pl-4">Danh sách CTKM</a> -->
+                        </div>
+                        <a href="#submenu-products" class="list-group-item list-group-item-action bg-black bg-body-tertiary" data-toggle="collapse">Quản lý Sản phẩm</a>
+                        <div class="collapse" id="submenu-products">
+                            <a href="#!/product-create" class="list-group-item list-group-item-action pl-4" onclick="removelocastogeAttribute()">Tạo sản phẩm</a>
+                            <a href="#!/products" class="list-group-item list-group-item-action pl-4">Danh sách sản phẩm</a>
+                            <!-- <a href="#" class="list-group-item list-group-item-action pl-4">Biến thể</a> -->
+                            <a href="#!/warehouse-list" class="list-group-item list-group-item-action pl-4">Kho sản phẩm</a>
+                            <!-- <a href="#" class="list-group-item list-group-item-action pl-4">Danh sách CTKM</a> -->
+                        </div>
+                        <a href="#submenu-category" class="list-group-item list-group-item-action bg-black bg-body-tertiary data-toggle="collapse">Quản lý Loại sản phẩm</a>
+                        <div class="collapse" id="submenu-category">
+                            <a href="#" class="list-group-item list-group-item-action pl-4">Tạo loại sản phẩm</a>
+                            <a href="#" class="list-group-item list-group-item-action pl-4">Danh sách loại sản phẩm</a>
+                            <!-- <a href="#" class="list-group-item list-group-item-action pl-4">Danh sách CTKM</a> -->
+                        </div>
+                        <a href="#submenu-fillters" class="list-group-item list-group-item-action bg-black bg-body-tertiary" data-toggle="collapse">Quản lý Bộ lọc</a>
+                        <div class="collapse" id="submenu-fillters">
+                            <a href="#" class="list-group-item list-group-item-action pl-4 ">Tạo bộ lọc</a>
+                            <a href="#" class="list-group-item list-group-item-action pl-4">Danh sách bộ lọc</a>
+                            <!-- <a href="#" class="list-group-item list-group-item-action pl-4">Danh sách CTKM</a> -->
+                        </div>
+                        <a href="#submenu-coupon" class="list-group-item list-group-item-action bg-black bg-body-tertiary" data-toggle="collapse">Mã khuyến mãi</a>
+                        <div class="collapse" id="submenu-coupon">
+                            <a href="#!/coupon-create" class="list-group-item list-group-item-action pl-4" onclick="newCoupon()">Tạo khuyến mãi</a>
+                            <a href="#!/coupon-list" class="list-group-item list-group-item-action pl-4">Danh sách mã khuyến mãi</a>
+                        </div>
+                        <a href="#submenu-promotion" class="list-group-item list-group-item-action bg-black bg-body-tertiary" data-toggle="collapse">Chương trình khuyến mãi</a>
+                        <div class="collapse" id="submenu-promotion">
+                            <a href="#!/promotion-create" class="list-group-item list-group-item-action pl-4" onclick="newPromotion()">Tạo CTKM</a>
+                            <a href="#!/promotion-list" class="list-group-item list-group-item-action pl-4">Danh sách CTKM</a>
+                        </div>
+                        <a href="#submenu-auther" class="list-group-item list-group-item-action bg-black bg-body-tertiary" data-toggle="collapse">Tài khoản và Phân quyền</a>
+                        <div class="collapse" id="submenu-auther">
+                            <a href="#" class="list-group-item list-group-item-action pl-4">Tạo bộ lọc</a>
+                            <a href="#" class="list-group-item list-group-item-action pl-4">Danh sách bộ lọc</a>
+                            <!-- <a href="#" class="list-group-item list-group-item-action pl-4">Danh sách CTKM</a> -->
+                        </div>
+                    </div>
+                </nav>
+                <!-- <div class="p-4">Nội dung trang web</div> -->
+            <!-- </div> -->
+          </div>
+          <div class="col-md-10 col-sm-10">
+            <div ng-view></div>
+          </div>
+    </div>
+    <div id="myAlert" class="alert alert-warning alert-dismissible fade show" role="alert" style="display: none;">
+        <strong>Thông báo!</strong> Đây là thông báo tự động ẩn sau 3 giây.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="toast-container">
+          <div id="customAlert" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3000">
+              <div class="toast-header">
+                  <strong class="mr-auto text-primary">Thông báo</strong>
+                  <small>Vừa xong</small>
+                  <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+              <div class="toast-body">
+                  Nội dung thông báo
+              </div>
+          </div>
+      </div>
+      <div class="toast-container">
+          <div id="errorToast" class="toast align-items-center text-white bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3000">
+              <div class="d-flex">
+                  <div class="toast-body" id="errorMessage">
+                      Đã xảy ra lỗi!
+                  </div>
+                  <button type="button" class="ml-2 mb-1 close text-white" data-dismiss="toast" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+          </div>
+      </div>
+</body>
+<script>
+    function alertCustom(message) {
+            var myToast = $('#customAlert');
+            myToast.find('.toast-body').text(message); // Cập nhật nội dung
+
+            myToast.toast('show'); // Hiển thị toast
+            setTimeout(() => myToast.toast('hide'), 3000); // Tự động tắt sau 3 giây
+        }
+        function showErrorPopup(message) {
+            $("#errorMessage").text(message);  // Cập nhật nội dung lỗi
+            var toast = $("#errorToast");
+            toast.toast("show");  // Hiển thị toast
+        }
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-route.min.js"></script>
+
+
+<script src="../js/index_admin.js"></script>
+<script  src="../js/config_admin.js"></script>
+
+<script>
+    function removelocastogeAttribute(){
+        localStorage.removeItem('product_create_id')
+    }
+</script>
+</html>

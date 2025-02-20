@@ -1,0 +1,41 @@
+
+<div class="row col-12" ng-controller="CouponController">
+    <h1 class="col-12">MÃ KHUYẾN MÃI</h1>
+    <div class="col-12">
+        Fillter
+    </div>
+    <div class="col-12 promotion">
+        <table class="table ">
+            <thead>
+              <tr class="">
+                <th scope="col">#</th>
+                <th scope="col">Code</th>
+                <th scope="col">Tên</th>
+                <th scope="col">Ngày bắt đầu</th>
+                <th scope="col">Ngày kết thúc</th>
+                <th scope="col">Hoạt động</th>
+                <th scope="col">Hành động</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="coupon in coupons">
+                <th scope="row">{{coupon.id}}</th>
+                <td>{{coupon.code}}</td>
+                <td>{{coupon.name}}</td>
+                <td>{{coupon.start_date}}</td>
+                <td>{{coupon.end_date}}</td>
+                <td>
+                  <div class="custom-control custom-switch" ng-click="updateStatusCoupon(coupon.id, coupon.status)">
+                    <input type="checkbox" class="custom-control-input" id="toggleSwitch">
+                    <label class="custom-control-label" for="toggleSwitch"></label>
+                </div>
+                </td>
+                <td class="row">
+                    <button class="col btn btn-outline-success" ng-click="editCoupon(coupon.id)">Chỉnh sửa</button>
+                    <button class="col btn btn-outline-danger">Xóa</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+</div>

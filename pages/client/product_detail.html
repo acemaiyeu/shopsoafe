@@ -1,0 +1,119 @@
+<div ng-controller="HomeController">
+      <div class="container mt-5">
+            <div class="row">
+                <!-- Hình ảnh sản phẩm -->
+                <div class="col-md-6">
+                    <!DOCTYPE html>
+                    <html lang="vi">
+                    <head>
+                        <meta charset="UTF-8">
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                        <title>Slideshow Hình Ảnh</title>
+                        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+                        <style>
+                            .thumbnail-list img {
+                                width: 80px;
+                                height: 80px;
+                                object-fit: cover;
+                                cursor: pointer;
+                                border: 2px solid transparent;
+                            }
+                            .thumbnail-list img.active {
+                                border-color: red;
+                            }
+                        </style>
+                    </head>
+                    <body>
+                    
+                    <div class="container mt-4">
+                        <!-- Slideshow chính -->
+                        <div id="mainImageCarousel" class="carousel slide d-none d-md-block" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <img  src="/img/{{product.images[0]}}" id="main_image" class="d-block col-8 offset-2">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="mainImageCarousel1" class="carousel slide d-block d-md-none product-detail" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <img  src="/img/{{product.images[0]}}" id="main_image1" class="d-block col-12 ">
+                                  
+                                </div>
+                            </div>
+                        </div>
+                    
+                        <!-- Danh sách hình ảnh nhỏ bên dưới -->
+                        <div class="thumbnail-list d-flex justify-content-center mt-3 d-none d-md-block">
+                            <img src="/img/{{image}}" class="thumb active" ng-click="showImageSlideShow(image)" data-bs-target="#mainImageCarousel" data-bs-slide-to="0" ng-repeat="image in product.images">
+                            <!-- <img src="/img/router-wifi-chuan-ac1200-xiaomi-4a-trang-2-750x500.jpg" onclick="showImageSlideShow('router-wifi-chuan-ac1200-xiaomi-4a-trang-2-750x500.jpg')" class="thumb" data-bs-target="#mainImageCarousel" data-bs-slide-to="1">
+                            <img src="https://via.placeholder.com/600x400/0000ff/ffffff?text=Image+3" class="thumb" data-bs-target="#mainImageCarousel" data-bs-slide-to="2"> -->
+                        </div>
+                        <div class="thumbnail-list d-flex justify-content-center mt-3 d-block d-md-none">
+                            <img src="/img/{{image}}" class="thumb active" ng-click="showImageSlideShowModel(image)" data-bs-target="#mainImageCarousel1" data-bs-slide-to="0" ng-repeat="image in product.images">
+                            <!-- <img src="/img/router-wifi-chuan-ac1200-xiaomi-4a-trang-2-750x500.jpg" onclick="showImageSlideShow('router-wifi-chuan-ac1200-xiaomi-4a-trang-2-750x500.jpg')" class="thumb" data-bs-target="#mainImageCarousel" data-bs-slide-to="1">
+                            <img src="https://via.placeholder.com/600x400/0000ff/ffffff?text=Image+3" class="thumb" data-bs-target="#mainImageCarousel" data-bs-slide-to="2"> -->
+                        </div>
+                    </div>
+                    
+                    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+                    <script>
+                        document.querySelectorAll(".thumb").forEach(img => {
+                            img.addEventListener("click", function() {
+                                document.querySelectorAll(".thumb").forEach(i => i.classList.remove("active"));
+                                this.classList.add("active");
+                            });
+                        });
+                    </script>
+                    
+                    </body>
+                    </html>
+                    
+                </div>
+                 <!-- Thông tin biến thể -->
+                        
+
+                <!-- Thông tin sản phẩm -->
+                <div class="col-md-6">
+                    <h2 id="product-name">{{product.name}}</h2>
+                    <p class="text-muted">Mã sản phẩm: <span id="product-id">{{product.code}}</span></p>
+
+                    <div class="row col-12">
+                        <h5 class="">Phiên bản sản phẩm: </h5>
+                        <div class="container mt-6" >
+                           
+                            <div class="d-flex flex-wrap">
+                                <div class="color-option" ng-click="getProductDetail(varian.id)" style="margin-left: 5px;" data-color="" ng-repeat="varian in product.varians">
+                                  
+                                    <span class="checkmark">✔</span>
+                                    <img src="/img/{{varian.image_url}}" alt="Xanh Dương Nhạt">
+                                    <div class="row col-12" >
+                                        <span ng-repeat="item in varian.varians">{{item}}</span>
+                                    </div>
+                                </div>
+                              
+                            </div>
+                        </div>
+                    </div>  
+                    
+
+                    <h4 class="text-danger"><span id="product-price">{{product.price_show}}</span></h4>
+                    
+                    
+                    <button class="btn btn-primary btn-lg mt-3" ng-click="addProduct(product.id)">Thêm vào giỏ hàng</button>
+                    
+                </div>
+                <div class="col-12">
+                    <p id="product-description" ng-bind-html="getTrustedHtml(product.infomation_long)"></p>
+                </div>
+            </div>
+        </div>
+</div>
+<script>
+    $(document).ready(function(){
+        $(".color-option").click(function(){
+            $(".color-option").removeClass("selected"); // Xóa chọn tất cả
+            $(this).addClass("selected"); // Thêm class vào ô được chọn
+        });
+    });
+</script>

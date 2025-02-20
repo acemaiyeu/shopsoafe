@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CKEditor 4 Example</title>
+    <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
+</head>
+<body>
+
+    <h2>CKEditor 4 trong HTML</h2>
+    <textarea id="editor">Nhập nội dung tại đây...</textarea>
+    <button onclick="Save()">Lưu</button>
+    <script>
+        CKEDITOR.replace('editor');
+        function Save(){
+            console.log(CKEDITOR.instances.editor.getData())
+        }
+        ClassicEditor
+    .create(document.querySelector('#editor'), {
+        toolbar: [ 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ]
+    })
+    .catch(error => {
+        console.error(error);
+    });
+    </script>
+
+</body>
+</html>

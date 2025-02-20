@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lý Kho Hàng</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container col-12">
+        <h2 class="text-center">Quản Lý Kho Hàng</h2>
+        
+        Form thêm kho hàng
+             <div class="card p-3 mb-4">
+            <h4>Thêm kho hàng mới</h4>
+            <form id="warehouse-form">
+                <div class="form-row">
+                    <div class="col-md-1 col-sm-12" hidden>
+                        <input type="text" ng-model="warehouse_create_id" id="warehouse-id" class="form-control" placeholder="Mã kho" required>
+                    </div>
+                    <div class="col-md-1 col-sm-12">
+                        <input type="text" ng-model="warehouse_create_code" id="warehouse-id" class="form-control" placeholder="Mã kho" required>
+                    </div>
+                    <div class="col-md-3 col-sm-12">
+                        <input type="text" id="warehouse-name" ng-model="warehouse_create_name" class="form-control" placeholder="Tên kho" required>
+                    </div>
+                    <div class="col-md-3 col-sm-12">
+                        <input type="text" id="warehouse-address" ng-model="warehouse_create_address" class="form-control" placeholder="Địa chỉ" required>
+                    </div>
+                    <div class="col-md-1  col-sm-12">
+                        <input type="text" id="warehouse-location" ng-model="warehouse_create_lat" class="form-control" placeholder="Vị trí lat" required>
+                    </div>
+                    <div class="col-md-1  col-sm-12">
+                        <input type="text" id="warehouse-location" class="form-control" ng-model="warehouse_create_lon" placeholder="Vị trí long" required>
+                    </div>
+                    <div class="col-md-1  col-sm-3">
+                        <button type="submit" class="btn btn-primary" ng-click="saveWarehouse()">Lưu</button>
+                    </div>
+                </div>
+                
+                </div>
+            </form>
+        </div>
+        <div class="card p-3 mb-4">
+            <h4>Lấy vị trí kho hàng</h4>
+            <form id="warehouse-form">
+                <div class="form-row">
+                    <div class="col">
+                        <input type="text" id="warehouse-id" ng-model="location.address" class="form-control" placeholder="Nhập quận, thành phố" required>
+                    </div>
+                    <div class="col">
+                        <input type="text" id="warehouse-name" disabled ng-model="location.lat" class="form-control" placeholder="Vị trí lat" required>
+                    </div>
+                    <div class="col">
+                        <input type="text" id="warehouse-name" disabled ng-model="location.lon" class="form-control" placeholder="Vị trí lon" required>
+                    </div>
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary" ng-click="getLocation()">Lấy vị trí</button>
+                    </div>
+                </div>
+            </form>
+        </div> 
+        
+        <!-- Form thêm sản phẩm vào kho hàng --> 
+        <!-- <div class="card p-3 mb-4">
+            <h4>Thêm Sản phẩm vào Kho Hàng</h4>
+            <form id="product-form">
+                <div class="form-row">
+                    <div class="col">
+                        <select id="warehouse-select" class="form-control" required>
+                            <option value="">Chọn sản phẩm</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <select id="warehouse-select" class="form-control" required>
+                            <option value="">Chọn kho hàng</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <input type="number" id="product-quantity" class="form-control" placeholder="Số lượng" required>
+                    </div>
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary">Thêm</button>
+                    </div>
+                </div>
+            </form>
+        </div> -->
+
+    <!-- Khung tìm kiếm -->
+    <div class="card p-12">
+        <h3>Bộ lọc</h3>
+        <form id="searchForm">
+            <div class="form-row">
+                <div class="col-md-1 mb-3">
+                    <label>Mã kho hàng</label>
+                    <input type="text" id="searchMaKho" ng-model="warehouse_search_code" class="form-control" placeholder="Nhập mã kho">
+                </div>
+                <div class="row col-md-3 mb-3">
+                    <label>Tên kho hàng</label>
+                    <input type="text" id="searchTenKho" ng-model="warehouse_search_name"  class="form-control" placeholder="Nhập tên kho">
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label>Mã sản phẩm</label>
+                    <input type="text" id="searchMaSP"  ng-model="warehouse_search_address"  class="form-control" placeholder="Nhập mã sản phẩm">
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label>Tên sản phẩm</label>
+                    <input type="text" id="searchTenSP" ng-model="warehouse_search_product_code"  class="form-control" placeholder="Nhập tên sản phẩm">
+                </div>
+                <div class="col-md-2 mb-3">
+                    <label>Địa chỉ</label>
+                    <input type="text" id="searchDiaChi" class="form-control" ng-model="warehouse_search_product_name"  placeholder="Nhập địa chỉ">
+                </div>
+                <div class="col-md-1 mb-3">
+                   <br>
+                   
+                    <button class="btn btn-primary" style="margin-top: 6px;" ng-click="getWarehouses()">Tìm kiếm</button>
+                </div>
+            </div>
+        </form>
+    </div>
+        <!-- Bảng danh sách kho hàng -->
+        <table class="table table-bordered table-responsive-sm">
+            <thead>
+                <tr>
+                    <th>Mã kho</th>
+                    <th>Tên kho</th>
+                    <th>Địa chỉ</th>
+                    <th>Vị trí lat</th>
+                    <th>Vị trí lon</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody id="warehouse-list">
+                    <tr ng-repeat="warehouse in warehouses">
+                        <td>{{warehouse.code}}</td>
+                        <td>{{warehouse.name}}</td>
+                        <td>{{warehouse.address}}</td>
+                        <td>{{warehouse.lat}}</td>
+                        <td>{{warehouse.lon}}</td>
+                        <td>
+                            <button class="btn btn-success" ng-click="editWarehouse($index)">Sửa</button>
+                            <button class="btn btn-success" ng-click="redirectWarehouseDetail(warehouse.id)">Xem chi tiết</button>
+                            <button class="btn btn-danger">Xóa</button>
+                        </td>
+                    </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        document.getElementById('warehouse-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            let id = document.getElementById('warehouse-id').value;
+            let name = document.getElementById('warehouse-name').value;
+            let address = document.getElementById('warehouse-address').value;
+            let location = document.getElementById('warehouse-location').value;
+            
+            let table = document.getElementById('warehouse-list');
+            let row = table.insertRow();
+            row.innerHTML = `
+                <td>${id}</td>
+                <td>${name}</td>
+                <td>${address}</td>
+                <td>${location}</td>
+                <td>
+                    <button class="btn btn-warning btn-sm" onclick="editWarehouse(this)">Chỉnh sửa</button>
+                    <button class="btn btn-info btn-sm" onclick="viewProducts(this)">Kho sản phẩm</button>
+                </td>`;
+            
+            let warehouseSelect = document.getElementById('warehouse-select');
+            let option = document.createElement('option');
+            option.value = id;
+            option.textContent = name;
+            warehouseSelect.appendChild(option);
+
+            document.getElementById('warehouse-form').reset();
+        });
+
+        document.getElementById('product-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            let productId = document.getElementById('product-id').value;
+            let warehouseId = document.getElementById('warehouse-select').value;
+            let quantity = document.getElementById('product-quantity').value;
+            
+            if (!warehouseId) {
+                alert("Vui lòng chọn kho hàng");
+                return;
+            }
+            
+            alert(`Sản phẩm ${productId} đã được thêm vào kho ${warehouseId} với số lượng ${quantity}`);
+            document.getElementById('product-form').reset();
+        });
+
+        function editWarehouse(btn) {
+            let row = btn.closest('tr');
+            document.getElementById('warehouse-id').value = row.cells[0].textContent;
+            document.getElementById('warehouse-name').value = row.cells[1].textContent;
+            document.getElementById('warehouse-address').value = row.cells[2].textContent;
+            document.getElementById('warehouse-location').value = row.cells[3].textContent;
+            row.remove();
+        }
+
+        function viewProducts(btn) {
+            let warehouseName = btn.closest('tr').cells[1].textContent;
+            alert(`Xem kho sản phẩm của ${warehouseName}`);
+        }
+    </script>
+</body>
+</html>

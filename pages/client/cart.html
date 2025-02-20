@@ -1,0 +1,413 @@
+<link rel="stylesheet" href="../css/cart.css">
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+    .card {
+        border-radius: 10px;
+        margin-bottom: 15px;
+    }
+    .btn-update {
+        background-color: #007bff;
+        color: white;
+        border: none;
+    }
+    .btn-update:hover {
+        background-color: #0056b3;
+    }
+    .btn-checkout {
+        background-color: #ff4081;
+        color: white;
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 5px;
+        transition: 0.3s;
+    }
+    .btn-checkout:hover {
+        background-color: #d81b60;
+    }
+    .toggle-section {
+        cursor: pointer;
+        color: #007bff;
+        font-weight: bold;
+    }
+    .quantity-box {
+        display: flex;
+        align-items: center;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        overflow: hidden;
+        width: 120px;
+    }
+    .quantity-box button {
+        background-color: #f8f9fa;
+        border: none;
+        padding: 5px 10px;
+        font-size: 18px;
+        cursor: pointer;
+        width: 35px;
+        text-align: center;
+    }
+    .quantity-box input {
+        width: 50px;
+        text-align: center;
+        border: none;
+        font-size: 16px;
+        outline: none;
+    }
+</style>
+<div class="d-block">
+    <div class="row col-12">
+        <div class="col-12 title-cart">
+            Giỏ hàng
+    </div>
+        <!-- <div class="col-5 offset-2 d-none d-md-block">
+            <div class="col-12 cart-info-user">Thông tin khách hàng
+               <div class="row col-12" id="cart_username" ng-model="cart.username" >Họ và tên: {{cart.username}}</div>
+                <div class="row col-12" id="cart_phone_number" ng-model="cart.phone_number">Số điện thoại: {{cart.phone_number}}</div>
+                <div class="row col-12" id="cart_address" ng-model="cart.address">Địa chỉ nhận hàng: {{cart.address}}</div>
+                <button data-toggle="modal" data-target="#infoUser" ng-click="showInfoUser()"><i class="bi bi-box-arrow-in-down-left"></i></button>
+            </div>
+
+            <div class="row col-12 cart-product-detail-item" ng-repeat="detail in cart.details">
+                <div class="col-3"><img class="d-none d-md-block" width="150px" height="150px" src="/img/{{detail.product.image_url}}" alt="/product"></div>
+                <div class="col-6">
+                    <div class="row col-12 d-none d-md-block" >Tên sản phẩm: {{detail.product.name}}</div>
+                    <div class="row col-12 d-none d-md-block">Khối lượng: {{detail.product.weight}} {{ details.product.weight_unit}}</div>
+                    <div class="row col-12 d-none d-md-block">
+                        <div class="btn-product-detail-option d-none d-md-block">
+                            <button class="btn-product-detail-down"
+                                ng-click="addToCart(detail.product, detail.qty - 1)">-</button>
+                            <label class="btn-product-detail-down">{{detail.qty}}</label>
+                            <button class="btn-product-detail-up"
+                                ng-click="addToCart(detail.product, detail.qty + 1)">+</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3" style="text-align: center;">
+                    <div class="col-12 cart-product-detail-price d-none d-md-block"> <strong>{{detail.total_text}}</strong> <span class="old-price">{{detail.total_old_text}}</span></div>
+                    <div class="col-12 cart-product-detail-btn-remove d-none d-md-block">
+                        <button ng-click="addToCart(detail.product,0)" class="d-none d-md-block">
+                            <i class="bi bi-trash fs-1"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-12 d-none d-md-block" ng-if="cart.gifts.length">
+                <span>Quà tặng</span>
+                <div class="row col-12" ng-repeat="gift in cart.gifts">
+                    <h5 class="col-12">KM: <span>{{gift.promotion_name}}</span></h5>
+                    <img src="https://via.placeholder.com/300" class="card-img-top col-3"  width="30px" height="30px" alt="Quà Tặng 1">
+                    <div class="col-7">
+                        <h5 class="card-title">{{gift.product_name}}</h5>
+                        <p class="card-text">Số lượng: <strong>{{gift.qty}}</strong></p>
+                    </div>
+                </div>
+                
+            </div>
+
+    </div>
+    <div class="col-3 cart-info-payment d-none d-md-block">
+            <h3 class="col-12">THANH TOÁN</h3>
+            <div class="row col-12">
+                Phương thức vận chuyển
+                <button class="btn btn-light" data-toggle="modal" data-target="#method_shipping">Chọn</button><br><br>
+                <div class="line"></div>
+            </div>
+            <div class="row col-12">
+                <div class="row col-12">
+                    Phương thức thanh toán
+                </div>
+        
+                    <select class="col-12 custom-select custom-select-sm" ng-model="cart.payment">
+                          <option value="COD">Thanh toán khi nhận hàng (COD)</option>
+                          <option value="vietcomback">Thanh toán bằng Vietcombank</option>
+                          <option value="momo">Thanh toán bằng Momo</option>
+                          <option value="vnpay">Thanh toán bằng VNPay</option>
+                      </select>
+                <div class="line"></div>
+            </div>
+            <div class="row col-12">
+                <div class="row col-12">
+                    <input type="checkbox"> &nbsp; Nhận tại cửa hàng</pre> 
+                </div>
+                    
+                <div class="line"></div>
+            </div>
+            <div class="row col-12">
+                <div class="col-8" style="text-align: left;">
+                    Mã giảm giá
+                </div>
+                <button class="col-2 btn btn-light"  data-toggle="modal" data-target="#infoPromoCode" ng-click="getPromos()">Chọn</button>
+                <div class="line"></div>
+            </div>
+            <div class="row col-12">
+                <div class="row col-12">
+                    Ghi chú:
+                </div>
+                 <div class="row col-12">
+                    <textarea name="" id="" rows="4" cols="40" ng-model="cart.note" class="col-12"></textarea>
+                 </div>   
+                <div class="line"></div>
+            </div>
+                <h5 class="row col-12 info-payment" ng-repeat="info in cart.info_payment">
+                    <div class="row col-7" style="text-align: left;">
+                        {{info.name_show}}
+                    </div>
+                    <div class="row col-5 total_pay_text  d-flex justify-content-end " >
+                        {{info.total_price_text}}
+                    </div>
+                </h5>
+                <h5 class="row col-12" style="font-size: 1rem; margin-top: 20px;">
+                    <input type="checkbox" name="" id=""> &nbsp; Tôi đồng ý với &nbsp;<span id="condition_shop" data-toggle="modal" data-target="#condition_shop_popup"> Điều kiện và điều khoản sử dụng</span>
+                </h5>
+               
+                <div class="row col-12 btn btn-info" ng-click="confirmOrder(cart.id)">Xác nhận đơn hàng</div>
+    </div>
+    </div>
+    <div class="modal fade" id="infoUser" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="infoModalLabel">Nhập Thông Tin</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="name">Họ và tên</label>
+                            <input type="text" ng-model="cart_username" class="form-control" placeholder="Nhập họ và tên">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Số điện thoại</label>
+                            <input type="text" ng-model="cart_phone_number" class="form-control" placeholder="Nhập số điện thoại">
+                        </div>
+                        <div class="form-group">
+                            <label for="address">Địa chỉ nhận hàng</label>
+                            <input type="text" ng-model="cart_address" class="form-control" placeholder="Nhập địa chỉ nhận hàng">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="updateCartInfo()">Lưu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="method_shipping" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="infoModalLabel">Phương thức vận chuyển</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="row col-8 offset-1">
+                            Mặc định
+                        </div>
+                        <div class="row col-1 offset-1">
+                                <button class="btn btn-light">Chọn</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-primary">Lưu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="infoPromoCode" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="infoModalLabel">Mã giảm giá</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                        <div class="row col-12">
+                            <h5 class="col-12">Giảm giá sản phẩm</h4> <br>
+                            <div class="promocode-product" ng-repeat="pro in promocodes" ng-if="pro.type == 'product'">
+                                    <input type="radio" name="promocode-product" ng-click="selectCouponProduct(pro.code)" value="{{pro.code}}"> &nbsp; {{pro.name}}  
+                            </div>
+                        </div>
+                        <div class="row col-12">
+                            <h5 class="col-12" style="margin-top: 10px;">Giảm giá vận chuyển 2</h4>
+                            <div class="promocode-shipping" ng-repeat="pro in promocodes" ng-if="pro.type == 'shipping'">
+                                <input type="radio" name="promocode-shiping"  ng-click="selectCouponShipping(pro.code)" value="{{pro.code}}"> &nbsp; {{pro.name}}  
+                            </div>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="applyCoupon()">Áp dụng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="condition_shop_popup" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="infoModalLabel">Điều kiện và điều khoản sử dụng</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                        <div class="row col-12">
+                                Đang cập nhật ...
+                        </div>
+                </div>
+        
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<div class="col-12">
+    
+    <div class="container mt-3 col-sm-12">
+        <!-- Thông tin khách hàng -->
+        <div class="card col-sm-12">
+            <h5>Thông tin khách hàng</h5>
+            <div class="form-group">
+                <label>Họ và tên</label>
+                <input type="text" ng-model="cart.username" class="form-control" placeholder="Nhập họ và tên">
+            </div>
+            <div class="form-group">
+                <label>Số điện thoại</label>
+                <input type="text" ng-model="cart.phone_number" class="form-control" placeholder="Nhập số điện thoại">
+            </div>
+            <div class="form-group">
+                <label>Địa chỉ nhận hàng</label>
+                <input type="text" ng-model="cart.address" class="form-control" placeholder="Nhập địa chỉ">
+            </div>
+            <button class="btn btn-update btn-block" ng-click="updateInfoUserMobile()"><i class="fas fa-sync-alt"></i> Cập nhật</button>
+        </div>
+    
+        <!-- Thông tin sản phẩm -->
+        <div class="card col-12">
+            <h5>Thông tin sản phẩm</h5>
+            <div class="d-flex align-items-center" ng-repeat="detail in cart.details">
+                <img src="/img/{{detail.product.image_url}}" class="mr-3 img-fluid" alt="Sản phẩm">
+                <div >
+                    <p class="mb-1"><strong>{{detail.product.name}}</strong></p>
+                    <!-- <p class="mb-1">{{detail.product_id}}</p> -->
+                    <p class="mb-1 text-danger font-weight-bold">{{detail.total_text}} <span ng-if="detail.discount_price > 0" class="text-muted" style="text-decoration: line-through;">{{detail.price_old_text}}</span></p>
+                    <div class="quantity-box">
+                        <button onclick="changeQuantity(-1)">-</button>
+                        <input type="number" id="quantity" value="1" min="1">
+                        <button onclick="changeQuantity(1)">+</button>
+                    </div>
+                    <button class="quantity-box" ng-click="addToCart(detail.product,0)">
+                        <i class="bi bi-trash fs-1"></i> 
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        
+    
+
+        <div class="toggle-section" onclick="toggleDiscount('product-discount')">▼ Mã giảm giá sản phẩm</div>
+        <div id="product-discount" class="discount-options">
+            <div class="form-group mt-2">
+                <div ng-if="coupon.type=='product'" ng-repeat="coupon in promocodes">
+                    <input type="radio" name="discount" value="{{coupon.code}}" ng-click="selectCouponProduct(coupon.code)"> {{coupon.name}}
+                </div>
+            </div>
+        </div>
+        <div class="toggle-section" onclick="toggleDiscount('shipping-discount')">▼ Mã giảm giá vận chuyển</div>
+        <div id="shipping-discount" class="discount-options">
+            <div class="form-group mt-2">
+                <div ng-if="coupon.type=='shipping'" ng-repeat="coupon in promocodes">
+                    <input type="radio" name="shipping-discount" value="{{coupon.code}}"  ng-click="selectCouponShipping(coupon.code)"> {{coupon.name}}
+                </div>
+                
+                
+            </div>
+        </div>
+
+        <!-- Thông tin thanh toán -->
+        <div class="card p-3">
+            <h5>Thông tin thanh toán</h5>
+            <div class="form-group">
+                <label>Chọn đơn vị vận chuyển</label>
+                <select class="form-control">
+                    <option>Giao hàng nhanh - 30,000₫</option>
+                    <option>Giao hàng tiết kiệm - 20,000₫</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Phương thức thanh toán</label>
+                <select class="form-control">
+                    <option>Thanh toán khi nhận hàng (COD)</option>
+                    <option>Thanh toán bằng Momo</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="checkbox"> Nhận tại cửa hàng
+            </div>
+        </div>
+    
+        <div class="card p-3" ng-if="cart.gifts.length > 0">
+            <h5>Thông tin quà tặng</h5>
+            <div class="d-flex align-items-center" ng-repeat="gift in cart.gifts">
+                <img src="/img/{{gift.product_image}}" class="mr-3" alt="Sản phẩm">
+                <div >
+                    
+                    <p class="mb-1">{{gift.product_name}}</p>
+                    <p class="mb-1 text-danger font-weight-bold">Số lượng: {{gift.qty}} </p>
+                    <p class="mb-1"><strong>Từ: {{gift.promotion_name}}</strong></p>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Tổng thanh toán -->
+        <div class="card p-3">
+            <h5>Thanh toán</h5>
+            <p class="mb-1" ng-if="cart.info_payment.length - 1 > $index" ng-repeat="info in cart.info_payment">{{info.name_show}}: <span class="float-right"> {{info.total_price_text}}</span></p>
+            <!-- <p class="mb-1">Giá khuyến mãi: <span class="float-right text-danger">-30,000₫</span></p> -->
+            <hr>
+            <h5>Tổng thanh toán: <span class="float-right text-danger font-weight-bold">{{cart.info_payment[cart.info_payment.length -1 ].total_price_text}}</span></h5>
+            <div class="form-group mt-3">
+                <input type="checkbox" required> Tôi đồng ý với <a href="#">Điều khoản và điều kiện sử dụng</a>
+            </div>
+            <button class="btn btn-checkout" ng-click="confirmOrder(cart.id)">Thanh toán</button>
+        </div>
+    </div>
+    
+    <script>
+         function changeQuantity(amount) {
+        var quantityInput = document.getElementById("quantity");
+        var currentValue = parseInt(quantityInput.value);
+        var newValue = currentValue + amount;
+        if (newValue >= 1) {
+            quantityInput.value = newValue;
+        }
+    }
+    function toggleDiscount(id) {
+        var section = document.getElementById(id);
+        section.style.display = (section.style.display === "none" || section.style.display === "") ? "block" : "none";
+    }
+    </script>
+    
+
+    
+</div>

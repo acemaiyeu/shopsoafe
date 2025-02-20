@@ -1,4 +1,4 @@
-const host = "http://192.168.1.7:8888";
+const host = "https://shopsoaapi-production.up.railway.app/";
 const apiUrl = host + "/api/v1/"
 const apiUrlV0 = host + "/api/v0/"
 const apiUrlLogin = host + "/api/auth/login"

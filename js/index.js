@@ -1,9 +1,9 @@
 
-let url_api_v0 = "http://192.168.1.7:8888/api/v0"
-let url_api_v1 = "http://192.168.1.7:8888/api/v0/"
-let url_api_login = "http://192.168.1.7:8888//api/auth/login"
-const apiUrl = "http://192.168.1.7:8888"
-const apiUrlCR = "http://192.168.1.7:5500"
+let url_api_v0 = "https://shopsoaapi-production.up.railway.app//api/v0"
+let url_api_v1 = "https://shopsoaapi-production.up.railway.app//api/v0/"
+let url_api_login = "https://shopsoaapi-production.up.railway.app/api/auth/login"
+const apiUrl = "https://shopsoaapi-production.up.railway.app/"
+const apiUrlCR = "shopsoafe-production.up.railway.app:5500"
 let session_id_client = ""
 let token = ""
 let limit_products = 12
